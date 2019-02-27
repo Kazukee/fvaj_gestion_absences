@@ -11,4 +11,8 @@ class Volee extends Model
     public function vacances() {
         return $this->hasMany('App\Vacance');
     }
+
+    public function classes() {
+        return $this->hasMany('App\Classe');
+    }
 }
