@@ -25,6 +25,7 @@
                 <div class="col-md-12">
                     <strong>Institution :</strong>
                     <select name="institution" class="form-control">
+                        <option hidden disabled selected value> -- Choisir une option -- </option>
                         @foreach($institutions as $institution)
                             <option value="{{ $institution->id }}" @if ($institution->id == $utilisateur->institution_id) selected="selected" @endif>{{ $institution->nom }}</option>
                         @endforeach

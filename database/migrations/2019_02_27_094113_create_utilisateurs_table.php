@@ -19,7 +19,7 @@ class CreateUtilisateursTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->increments('id')->unique();
-            $table->unsignedInteger('institution_id');
+            $table->unsignedInteger('institution_id')->nullable($value = true);
             $table->enum('titre', ['Madame', 'Monsieur']);
             $table->string('nom', 45);
             $table->string('prenom', 45);

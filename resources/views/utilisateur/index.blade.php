@@ -31,7 +31,7 @@
 
             @foreach($utilisateurs as $utilisateur)
                 <tr>
-                    <td><b>{{$utilisateur->institution->nom}}</b></td>
+                    <td><b>@if (empty($utilisateur->institution->nom)) @else {{$utilisateur->institution->nom}}@endif</b></td>
                     <td><b>{{$utilisateur->titre}}</b></td>
                     <td><b>{{$utilisateur->nom}}</b></td>
                     <td><b>{{$utilisateur->prenom}}</b></td>
