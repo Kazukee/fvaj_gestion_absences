@@ -15,8 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('eleve', 'EleveController');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/* Route de gestions des tables de notre base de données */
+Route::resource('eleve', 'EleveController');
+
+Route::resource('institution', 'InstitutionController');
+
+Route::resource('utilisateur', 'UtilisateurController');

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Utilisateur extends Model
 {
-    protected $fillable = ['titre', 'nom', 'prenom', 'telephone', 'adresse', 'date_de_naissance', 'email'];
+    protected $fillable = ['institution_id', 'titre', 'nom', 'prenom', 'telephone', 'adresse', 'date_de_naissance', 'email'];
 
     public function matiere() {
         return $this->hasOne('App\Matiere');

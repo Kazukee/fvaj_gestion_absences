@@ -18,15 +18,15 @@
 
         <table class="table table-hover table-sm">
             <tr>
-                <th width="50px"><b>Classe</b></th>
-                <th width="50px"><b>Titre</b></th>
-                <th width="50px"><b>Nom</b></th>
-                <th width="50px"><b>Prénom</b></th>
-                <th width="50px"><b>Téléphone</b></th>
-                <th width="300px"><b>Adresse</b></th>
-                <th width="200px"><b>Email interne</b></th>
-                <th width="200px"><b>Email externe</b></th>
-                <th width="220px"><b>Action</b></th>
+                <th><b>Classe</b></th>
+                <th><b>Titre</b></th>
+                <th><b>Nom</b></th>
+                <th><b>Prénom</b></th>
+                <th><b>Téléphone</b></th>
+                <th><b>Adresse</b></th>
+                <th><b>Email interne</b></th>
+                <th><b>Email externe</b></th>
+                <th width="220"><b>Action</b></th>
             </tr>
 
             @foreach($eleves as $eleve)

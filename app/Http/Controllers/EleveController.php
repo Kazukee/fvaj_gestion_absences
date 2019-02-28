@@ -49,8 +49,18 @@ class EleveController extends Controller
             'email_interne' => 'required',
         ]);
 
-        Eleve::create($request->all());
-        //$classes = Classe::orderBy('');
+        $eleve = new Eleve;
+
+        $eleve->classe_id = $request->get('classe');
+        $eleve->titre = $request->get('titre');
+        $eleve->nom = $request->get('nom');
+        $eleve->prenom = $request->get('prenom');
+        $eleve->telephone = $request->get('telephone');
+        $eleve->adresse = $request->get('adresse');
+        $eleve->email_interne = $request->get('email_interne');
+        $eleve->email_externe = $request->get('email_externe');
+
+        $eleve->save();
 
         return redirect()->route('eleve.index')
                             ->with('success', 'Nouvel élève ajouté avec succès.');
