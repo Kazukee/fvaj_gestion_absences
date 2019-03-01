@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Utilisateur;
 use Illuminate\Http\Request;
 use App\Eleve;
 use App\Classe;
@@ -16,6 +17,7 @@ class EleveController extends Controller
     public function index()
     {
         $eleves = Eleve::orderBy('classe_id')->paginate(20);
+
         return view('eleve.index', compact('eleves', 'classes'));
     }
 
@@ -27,8 +29,9 @@ class EleveController extends Controller
     public function create()
     {
         $classes = Classe::orderBy('code', 'asc')->get();
+        $utilisateurs = Utilisateur::orderBy('nom')->get();
 
-        return view('eleve.create', compact('classes'));
+        return view('eleve.create', compact('classes', 'utilisateurs'));
     }
 
     /**
@@ -62,6 +65,8 @@ class EleveController extends Controller
 
         $eleve->save();
 
+        $eleve->utilisateurs()->attach($request->get('utilisateur'));
+
         return redirect()->route('eleve.index')
                             ->with('success', 'Nouvel élève ajouté avec succès.');
     }
@@ -76,7 +81,7 @@ class EleveController extends Controller
     {
         $eleve = Eleve::find($id);
 
-        return view('eleve.detail', compact('eleve'));
+        return view('eleve.detail', compact('eleve', 'classe'));
     }
 
     /**

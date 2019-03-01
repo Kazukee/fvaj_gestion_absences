@@ -61,6 +61,15 @@
                     <input type="text" name="email_externe" class="form-control" placeholder="Email externe">
                 </div>
                 <div class="col-md-12">
+                    <strong>Responsable :</strong>
+                    <select name="utilisateur" class="form-control">
+                        <option hidden disabled selected value> -- Choisir une option -- </option>
+                        @foreach($utilisateurs as $utilisateur)
+                            <option value="{{ $utilisateur->id }}">{{ $utilisateur->nom }} {{ $utilisateur->prenom }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-12">
                     <a href="{{ route('eleve.index') }}" class="btn btn-sm btn-success">Retour</a>
                     <button type="submit" class="btn btn-sm btn-primary">Envoyer</button>
                 </div>

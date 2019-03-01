@@ -24,7 +24,7 @@ class CreateEleveUtilisateurTable extends Migration
             $table->unsignedInteger('role_id');
             $table->timestamps();
 
-            $table->foreign('eleve_id')->references('id')->on('eleves');
+            $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');
             $table->foreign('utilisateur_id')->references('id')->on('utilisateurs');
             $table->foreign('role_id')->references('id')->on('roles');
         });

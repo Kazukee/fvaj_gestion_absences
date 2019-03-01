@@ -27,3 +27,5 @@ Route::resource('institution', 'InstitutionController');
 Route::resource('utilisateur', 'UtilisateurController');
 
 Route::resource('classe', 'ClasseController');
+
+Route::resource('absence', 'AbsenceController');
