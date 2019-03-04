@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Eleve;
 use App\Utilisateur;
 use App\Institution;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class UtilisateurController extends Controller
     public function index()
     {
         $utilisateurs = Utilisateur::orderBy('nom')->paginate(20);
+
         return view('utilisateur.index', compact('utilisateurs', 'institutions'));
     }
 

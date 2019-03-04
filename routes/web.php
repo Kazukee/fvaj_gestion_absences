@@ -15,7 +15,7 @@ Route::get('/', function () {
     $eleves = DB::table('eleves')->select('*')->join('classes', 'classes.id', '=', 'eleves.classe_id')->get();
 
     return view('welcome', compact('eleves'));
-});
+})->name('accueil');
 
 Auth::routes();
 
@@ -33,3 +33,7 @@ Route::resource('utilisateur', 'UtilisateurController');
 Route::resource('classe', 'ClasseController');
 
 Route::resource('absence', 'AbsenceController');
+
+Route::get('absence/{id}', function ($id) {
+   return 'Eleve avec l\'id numéro ' . $id;
+})->name('absence');

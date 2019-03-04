@@ -1,5 +1,28 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+
+        .eleves td, .eleves th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .eleves tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .eleves tr:hover {
+            background-color: #ddd;
+        }
+
+        .eleves th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #b91d19;
+            color: white;
+        }
+
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -58,5 +81,26 @@
                 </form>
             </div>
         </div>
+        <hr>
+        @if (empty($utilisateur->eleves))
+
+        @else
+        <div>
+            <table class="eleves">
+                <tr>
+                    <th><b>Classe</b></th>
+                    <th><b>Nom</b></th>
+                    <th><b>Prénom</b></th>
+                    <th><b></b></th>
+                </tr>
+                @foreach($utilisateur->eleves as $eleve)
+                    <td>{{ $eleve->classe->code }}</td>
+                    <td>{{ $eleve->nom }}</td>
+                    <td>{{ $eleve->prenom }}</td>
+                    <td><a href="{{ route('absence', $eleve->id) }}">Lien vers les absences</a></td>
+                @endforeach
+            </table>
+        </div>
+        @endif
     </div>
 @endsection
