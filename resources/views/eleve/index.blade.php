@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10">
-                <h3>Liste des élèves</h3>
+                <h3><b>Liste des élèves</b></h3>
             </div>
             <div class="col-sm-2">
                 <a class="btn btn-sm btn-success" href="{{ route('eleve.create') }}">Ajouter un élève</a>
@@ -48,6 +48,72 @@
                             <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
                         </form>
                     </td>
+                </tr>
+            @endforeach
+        </table>
+        <hr>
+        <h3><b>Absence(s) par jour</b></h3>
+        <table class="table table-hover table-sm">
+            <tr>
+                <th><b>Absence reportée par</b></th>
+                <th><b>Cause</b></th>
+                <th><b>Date de début</b></th>
+                <th><b>Date de fin</b></th>
+            </tr>
+            @foreach($absences_jour as $absence_jour)
+            <tr>
+                <td><b>{{$absence_jour->responsable}}</b></td>
+                <td><b>{{$absence_jour->raison}}</b></td>
+                <td><b>{{$absence_jour->date_in}}</b></td>
+                <td><b>{{$absence_jour->date_out}}</b></td>
+            </tr>
+            @endforeach
+        </table>
+        <hr>
+        <h3><b>Absence(s) par semaine</b></h3>
+        <table class="table table-hover table-sm">
+            <tr>
+                <th><b>Absence reportée par</b></th>
+                <th><b>Cause</b></th>
+                <th><b>Date de début</b></th>
+                <th><b>Date de fin</b></th>
+            </tr>
+            @foreach($absences_semaine as $absence_semaine)
+                <tr>
+                    <td><b>{{$absence_semaine->responsable}}</b></td>
+                    <td><b>{{$absence_semaine->raison}}</b></td>
+                    <td><b>{{$absence_semaine->date_in}}</b></td>
+                    <td><b>{{$absence_semaine->date_out}}</b></td>
+                </tr>
+            @endforeach
+        </table>
+        <hr>
+        <h3><b>Absence(s) par mois</b></h3>
+        <table class="table table-hover table-sm">
+            <tr>
+                <th><b>Absence reportée par</b></th>
+                <th><b>Cause</b></th>
+                <th><b>Date de début</b></th>
+                <th><b>Date de fin</b></th>
+            </tr>
+            @foreach($absences_mois as $absence_mois)
+                <tr>
+                    <td><b>{{$absence_mois->responsable}}</b></td>
+                    <td><b>{{$absence_mois->raison}}</b></td>
+                    <td><b>{{$absence_mois->date_in}}</b></td>
+                    <td><b>{{$absence_mois->date_out}}</b></td>
+                </tr>
+            @endforeach
+        </table>
+        <hr>
+        <h3><b>Absence(s) à l'année</b></h3>
+        <table class="table table-hover table-sm">
+            <tr>
+                <th><b>Nombre de demi-jounrées d'absence</b></th>
+            </tr>
+            @foreach($absences_annee as $absence_annee)
+                <tr>
+                    <td><b>{{$absence_annee->nbre_absence}}</b></td>
                 </tr>
             @endforeach
         </table>

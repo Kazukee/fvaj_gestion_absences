@@ -6,6 +6,7 @@ use App\Utilisateur;
 use Illuminate\Http\Request;
 use App\Eleve;
 use App\Classe;
+use Illuminate\Support\Facades\DB;
 
 class EleveController extends Controller
 {
@@ -18,7 +19,41 @@ class EleveController extends Controller
     {
         $eleves = Eleve::orderBy('classe_id')->paginate(20);
 
-        return view('eleve.index', compact('eleves', 'classes'));
+        $absences_jour = DB::table('absences')->select(DB::raw("CONCAT(utilisateurs.nom, ' ', utilisateurs.prenom) AS responsable"), 'raison',
+                            DB::raw("DATE_FORMAT(absences.date_in, '%d.%m.%Y') AS date_in"), DB::raw("DATE_FORMAT(absences.date_out, '%d.%m.%Y') AS date_out"))
+                            ->join('eleves', 'eleves.id', '=', 'absences.eleve_id')
+                            ->join('eleve_utilisateur', 'eleve_utilisateur.id', '=', 'absences.eleve_utilisateur_id')
+                            ->join('utilisateurs', 'utilisateurs.id', '=', 'eleve_utilisateur.utilisateur_id')
+                            ->whereDate('date_in', '=', '2019-03-01')
+                            ->whereDate('date_out', '=','2019-03-01')->get();
+
+        $from_semaine = date('2019-03-11');
+        $to_semaine = date('2019-03-15');
+        $absences_semaine = DB::table('absences')->select(DB::raw("CONCAT(utilisateurs.nom, ' ', utilisateurs.prenom) AS responsable"), 'raison',
+                            DB::raw("DATE_FORMAT(absences.date_in, '%d.%m.%Y') AS date_in"), DB::raw("DATE_FORMAT(absences.date_out, '%d.%m.%Y') AS date_out"))
+                            ->join('eleves', 'eleves.id', '=', 'absences.eleve_id')
+                            ->join('eleve_utilisateur', 'eleve_utilisateur.id', '=', 'absences.eleve_utilisateur_id')
+                            ->join('utilisateurs', 'utilisateurs.id', '=', 'eleve_utilisateur.utilisateur_id')
+                            ->whereBetween('date_in', [$from_semaine, $to_semaine])
+                            ->whereDate('date_out', '<=', $to_semaine)->get();
+
+        $from_mois = date('2019-02-01');
+        $to_mois = date('2019-02-28');
+        $absences_mois = DB::table('absences')->select(DB::raw("CONCAT(utilisateurs.nom, ' ', utilisateurs.prenom) AS responsable"), 'raison',
+                            DB::raw("DATE_FORMAT(absences.date_in, '%d.%m.%Y') AS date_in"), DB::raw("DATE_FORMAT(absences.date_out, '%d.%m.%Y') AS date_out"))
+                            ->join('eleves', 'eleves.id', '=', 'absences.eleve_id')
+                            ->join('eleve_utilisateur', 'eleve_utilisateur.id', '=', 'absences.eleve_utilisateur_id')
+                            ->join('utilisateurs', 'utilisateurs.id', '=', 'eleve_utilisateur.utilisateur_id')
+                            ->whereBetween('date_in', [$from_mois, $to_mois])
+                            ->whereDate('date_out', '<=', $to_mois)->get();
+
+        $sub = DB::table('absences')->select('*', DB::raw("CASE WHEN absences.time_in IS NULL AND absences.time_out IS NULL THEN 1 ELSE 0 END AS absence"));
+        $absences_annee = DB::table(DB::raw("({$sub->toSql()}) as tbl_absence"))->select(DB::raw("SUM(CASE WHEN absence = 1
+                            THEN IF(DATEDIFF(tbl_absence.date_out, tbl_absence.date_in) = 0, 1 * 2, (DATEDIFF(tbl_absence.date_out, tbl_absence.date_in) + 1) * 2)
+                            ELSE 1 * 2
+                            END) AS nbre_absence"))->get();
+
+        return view('eleve.index', compact('absences_jour', 'absences_semaine', 'absences_mois', 'absences_annee', 'eleves', 'classes'));
     }
 
     /**

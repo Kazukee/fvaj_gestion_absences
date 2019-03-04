@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Gestion des absences de la FVAJ</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -40,12 +40,18 @@
                 top: 18px;
             }
 
+            .top-left {
+                position: absolute;
+                left: 10px;
+                top: 18px;
+            }
+
             .content {
-                text-align: center;
+                text-align: left;
             }
 
             .title {
-                font-size: 84px;
+                font-size: 36px;
             }
 
             .links > a {
@@ -58,13 +64,37 @@
                 text-transform: uppercase;
             }
 
-            .m-b-md {
-                margin-bottom: 30px;
+            .eleves {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            .eleves td, .eleves th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            .eleves tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+            .eleves tr:hover {
+                background-color: #ddd;
+            }
+
+            .eleves th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: center;
+                background-color: #b91d19;
+                color: white;
             }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
+            <div class="top-left">
+                <img src="{{ URL::to('/')}}/img/Logo_FVAJ_couleur.png" alt="Logo">
+            </div>
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -81,17 +111,27 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Bienvenue sur la gestion des absences de la FVAJ
                 </div>
+                <div>
+                    L'outil de gestion des absences du Programme Action Apprentissage
+                </div>
+                <div>
+                    <table class="eleves">
+                        <tr>
+                            <th><b>Classe</b></th>
+                            <th><b>Nom</b></th>
+                            <th><b>Prénom</b></th>
+                            <th><b></b></th>
+                        </tr>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                        @foreach($eleves as $eleve)
+                            <td>{{ $eleve->code }}</td>
+                            <td>{{ $eleve->nom }}</td>
+                            <td>{{ $eleve->prenom }}</td>
+                            <td><a href="{{ route('absence.index') }}">Lien vers les absences</a></td>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>

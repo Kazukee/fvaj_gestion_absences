@@ -59,7 +59,7 @@
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <a href="{{ route('eleve.index') }}" class="btn btn-sm btn-success">Retour</a>
+                    <a href="{{ route('absence.index') }}" class="btn btn-sm btn-success">Retour</a>
                     <button type="submit" class="btn btn-sm btn-primary">Envoyer</button>
                 </div>
             </div>
