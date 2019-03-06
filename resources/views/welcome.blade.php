@@ -200,7 +200,7 @@
                             <td>{{ $eleve->code }}</td>
                             <td>{{ $eleve->nom }}</td>
                             <td>{{ $eleve->prenom }}</td>
-                            <td><a href="{{ route('absence.index') }}">Lien vers les absences</a></td>
+                            <td><a href="{{ route('absencesEleve', $eleve->id) }}">Lien vers les absences</a></td>
                         @endforeach
                     </table>
                 </div>

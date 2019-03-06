@@ -12,7 +12,10 @@
 */
 
 Route::get('/', function () {
-    $eleves = DB::table('eleves')->select('*')->join('classes', 'classes.id', '=', 'eleves.classe_id')->get();
+    $eleves = DB::table('eleves')->select('eleves.id', 'classe_id', 'titre', 'nom', 'prenom', 'telephone', 'adresse', 'email_interne',
+        'email_externe', 'classes.volee_id', 'classes.fk_luam', 'classes.fk_lupm', 'classes.fk_maam', 'classes.fk_mapm', 'classes.fk_meam',
+        'classes.fk_mepm', 'classes.fk_jeam', 'classes.fk_jepm', 'classes.fk_veam', 'classes.fk_vepm', 'classes.code')
+        ->join('classes', 'classes.id', '=', 'eleves.classe_id')->get();
 
     return view('welcome', compact('eleves'));
 })->name('accueil');
@@ -34,6 +37,13 @@ Route::resource('classe', 'ClasseController');
 
 Route::resource('absence', 'AbsenceController');
 
-Route::get('absence/{id}', function ($id) {
-   return 'Eleve avec l\'id numéro ' . $id;
-})->name('absence');
+Route::get('eleve/{id}/absences/', 'EleveController@absences', function($id) {
+   $eleve = App\Eleve::find($id);
+
+   return view('eleve.absence', compact('eleve'));
+})->name('absencesEleve');
+
+/*Route::post('eleve/absences', 'EleveController@chooseDate', function() {
+
+    return view('eleve.date');
+})->name('dateAbsences');*/
