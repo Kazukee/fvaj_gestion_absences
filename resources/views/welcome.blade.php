@@ -195,12 +195,13 @@
                             <th><b>Prénom</b></th>
                             <th><b></b></th>
                         </tr>
-
                         @foreach($eleves as $eleve)
-                            <td>{{ $eleve->code }}</td>
-                            <td>{{ $eleve->nom }}</td>
-                            <td>{{ $eleve->prenom }}</td>
-                            <td><a href="{{ route('absencesEleve', $eleve->id) }}">Lien vers les absences</a></td>
+                            <tr>
+                                <td>{{ $eleve->code }}</td>
+                                <td>{{ $eleve->nom }}</td>
+                                <td>{{ $eleve->prenom }}</td>
+                                <td><a href="{{ route('absences_eleve', $eleve->id) }}">Lien vers les absences</a></td>
+                            </tr>
                         @endforeach
                     </table>
                 </div>

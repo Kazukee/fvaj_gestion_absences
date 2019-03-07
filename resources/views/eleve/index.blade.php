@@ -51,7 +51,7 @@
                 </tr>
             @endforeach
         </table>
-        <hr>
+        {{-- <hr>
         <h3><b>Absence(s) par jour</b></h3>
         <table class="table table-hover table-sm">
             <tr>
@@ -116,7 +116,7 @@
                     <td><b>{{$absence_annee->nbre_absence}}</b></td>
                 </tr>
             @endforeach
-        </table>
+        </table>--}}
         {!! $eleves->links() !!}
     </div>
 @endsection

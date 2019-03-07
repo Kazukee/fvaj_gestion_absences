@@ -37,13 +37,15 @@ Route::resource('classe', 'ClasseController');
 
 Route::resource('absence', 'AbsenceController');
 
-Route::get('eleve/{id}/absences/', 'EleveController@absences', function($id) {
+Route::post('eleve/{id}/ab', 'EleveController@chooseDates', function($id) {
+    $eleve = \App\Eleve::find($id);
+
+    return view('absences.date', compact('eleve'));
+})->name('dates_absences');
+
+Route::get('eleve/{id}/absences/', 'EleveController@getAbsences', function($id) {
    $eleve = App\Eleve::find($id);
 
    return view('eleve.absence', compact('eleve'));
-})->name('absencesEleve');
+})->name('absences_eleve');
 
-/*Route::post('eleve/absences', 'EleveController@chooseDate', function() {
-
-    return view('eleve.date');
-})->name('dateAbsences');*/

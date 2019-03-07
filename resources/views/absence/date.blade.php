@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <h3><b>Liste des absences</b></h3>
+{{--    <h3><b>Liste des absences</b></h3>
     <table class="table table-hover table-sm">
         @if(empty($absences->count()))
             <p>Cet élève n'a jamais été absent.</p>
@@ -19,11 +19,6 @@
                     <td><b>{{$absence->date_out}}</b></td>
                 </tr>
             @endforeach
-        </table>
+    </table>--}}
     @endif
-    <form action="{{ route('dates_absences', 'date_in') }}" method="post">
-        @csrf
-        <input type="date" name="date_in">
-        <button type="submit" class="btn btn-sm btn-primary">Envoyer</button>
-    </form>
 @endsection
