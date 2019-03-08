@@ -2,11 +2,15 @@
 
 namespace App\Listeners;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-use App\{Events\AbsenceCreated as AbsenceCreatedEvent,
+
+use App\ {
+    Events\AbsenceCreated as AbsenceCreatedEvent,
     Notifications\AbsenceCreated as SendNotificationAbsenceCreated,
-    Absence,
-    Utilisateur};
+    Utilisateur
+};
+
 
 class AbsenceCreated
 {
@@ -28,8 +32,12 @@ class AbsenceCreated
      */
     public function handle(AbsenceCreatedEvent $event)
     {
-        $utilisateur = Utilisateur::with('utilisateurs')->select('email')->where('nom', '=', 'Rausis');
+        $utilisateurs = DB::table('utilisateurs')->select('utilisateurs.email')
+                            ->join('eleve_utilisateur', 'utilisateurs.id', '=', 'eleve_utilisateur.utilisateur_id')
+                            ->where('eleve_utilisateur.eleve_id', '=', $event->absence->eleve_id)->get();
 
-        Notification::send($utilisateur, new SendNotificationAbsenceCreated($event->absence));
+        foreach ($utilisateurs as $utilisateur) {
+            Notification::send(Utilisateur::where('email', $utilisateur->email)->get(), new SendNotificationAbsenceCreated($event->absence));
+        }
     }
 }

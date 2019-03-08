@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Utilisateur extends Model
 {
+    use Notifiable;
+
     protected $fillable = ['institution_id', 'titre', 'nom', 'prenom', 'telephone', 'adresse', 'date_de_naissance', 'email'];
 
     public function matiere() {
@@ -18,5 +21,9 @@ class Utilisateur extends Model
 
     public function eleves() {
         return $this->belongsToMany('App\Eleve', 'eleve_utilisateur')->withPivot('eleve_id', 'utilisateur_id');
+    }
+
+    public function routeNotificationForMail($notification) {
+        return $this->email;
     }
 }

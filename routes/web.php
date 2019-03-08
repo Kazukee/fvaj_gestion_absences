@@ -37,7 +37,7 @@ Route::resource('classe', 'ClasseController');
 
 Route::resource('absence', 'AbsenceController');
 
-Route::post('eleve/{id}/ab', 'EleveController@chooseDates', function($id) {
+Route::post('eleve/{id}/', 'EleveController@chooseDates', function($id) {
     $eleve = \App\Eleve::find($id);
 
     return view('absences.date', compact('eleve'));

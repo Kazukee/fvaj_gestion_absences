@@ -20,7 +20,7 @@ class EleveController extends Controller
     {
         $eleves = Eleve::orderBy('classe_id')->paginate(20);
 
-        return view('eleve.index', compact('absences_jour', 'absences_semaine', 'absences_mois', 'absences_annee', 'eleves', 'classes'));
+        return view('eleve.index', compact('eleves'));
     }
 
     /**
@@ -159,7 +159,7 @@ class EleveController extends Controller
             ->whereDate('date_out', '=', '2019-03-01')
             ->where('eleves.id', '=', $eleve)->get();
 
-        dd($absences);
+        //dd($absences);
 
         return redirect()->route('absences_eleve', $absences->id)->with('date_in');
     }
@@ -206,8 +206,6 @@ class EleveController extends Controller
                             END) AS nbre_absence"))->get();*/
 
         $eleve = Eleve::find($id);
-
-        //dd($eleve);
 
         $absences = DB::table('absences')->select(DB::raw("CONCAT(utilisateurs.nom, ' ', utilisateurs.prenom) AS responsable"), 'raison',
             DB::raw("DATE_FORMAT(absences.date_in, '%d.%m.%Y') AS date_in"), DB::raw("DATE_FORMAT(absences.date_out, '%d.%m.%Y') AS date_out"))

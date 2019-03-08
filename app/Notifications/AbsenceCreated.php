@@ -5,21 +5,25 @@ namespace App\Notifications;
 use App\Absence;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\DB;
 
 class AbsenceCreated extends Notification
 {
     protected $absence;
-    protected $eleve;
+    protected $nom;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Absence $absence, Eleve $eleve)
+    public function __construct(Absence $absence)
     {
         $this->absence = $absence;
-        $this->eleve = $eleve;
+
+        dd($absence = DB::table('absences')->orderBy('id', 'desc')->first());
+
+        //dd($absence);
     }
 
     /**
@@ -41,13 +45,10 @@ class AbsenceCreated extends Notification
      */
     public function toMail($notifiable)
     {
-        $titre = $this->eleve->titre;
-        $nom = $this->eleve->nom;
-        $prenom = $this->eleve->prenom;
-
         return (new MailMessage)
                     ->greeting('Bonjour !')
-                    ->line($titre . ' ' . $nom . ' ' . $prenom . ' est absent.');
+                    ->subject('Nouvelle absence')
+                    ->line();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\AbsenceCreated;
 use Illuminate\Database\Eloquent\Model;
 
 class Absence extends Model
@@ -11,4 +12,8 @@ class Absence extends Model
     public function eleve() {
         return $this->belongsTo('App\Eleve');
     }
+
+    protected $dispatchesEvents = [
+        'created' => AbsenceCreated::class,
+    ];
 }
