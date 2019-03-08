@@ -48,4 +48,3 @@ Route::get('eleve/{id}/absences/', 'EleveController@getAbsences', function($id) 
 
    return view('eleve.absence', compact('eleve'));
 })->name('absences_eleve');
-

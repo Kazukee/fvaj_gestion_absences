@@ -107,6 +107,7 @@ class AbsenceController extends Controller
 
         $absence = Absence::find($id);
         $absence->eleve_id = $request->get('eleve');
+        //$absence->eleve_utilisateur_id = Auth::id();
         $absence->date_in = $request->get('date_in');
         $absence->date_out = $request->get('date_out');
         $absence->time_in = $request->get('time_in');

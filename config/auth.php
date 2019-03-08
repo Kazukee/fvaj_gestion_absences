@@ -70,6 +70,11 @@ return [
             'model' => App\User::class,
         ],
 
+        /*'utilisateurs' => [
+            'driver' => 'eloquent',
+            'model' => App\Utilisateur::class,
+        ],*/
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -98,5 +103,4 @@ return [
             'expire' => 60,
         ],
     ],
-
 ];

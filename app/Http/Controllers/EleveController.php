@@ -142,6 +142,15 @@ class EleveController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function destroy($id)
+    {
+        $eleve = Eleve::find($id);
+        $eleve->delete();
+
+        return redirect()->route('eleve.index')
+            ->with('success', 'L\'élève a été supprimé avec succès !');
+    }
+
     public function chooseDates(Request $request, $id)
     {
         $request->validate([

@@ -21,9 +21,11 @@
             @endforeach
         </table>
     @endif
-    <form action="{{ route('dates_absences', 'date_in') }}" method="post">
+    <form action="{{ route('absences_eleve', 'id') }}" method="post">
         @csrf
-        <input type="date" name="date_in">
+        <input type="date" name="date_in" value="2019-03-01">
+        <input type="date" name="date_out" value="2019-03-31">
+        <input type="hidden" name="id" value="35">
         <button type="submit" class="btn btn-sm btn-primary">Envoyer</button>
     </form>
 @endsection

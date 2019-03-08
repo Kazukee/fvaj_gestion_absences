@@ -9,7 +9,13 @@ class Utilisateur extends Model
 {
     use Notifiable;
 
-    protected $fillable = ['institution_id', 'titre', 'nom', 'prenom', 'telephone', 'adresse', 'date_de_naissance', 'email'];
+    protected $fillable = [
+        'institution_id', 'titre', 'nom', 'prenom', 'telephone', 'adresse', 'date_de_naissance', 'email', 'mot_de_passe'
+    ];
+
+    protected $hidden = [
+        'mot_de_passe', 'remember_token',
+    ];
 
     public function matiere() {
         return $this->hasOne('App\Matiere');

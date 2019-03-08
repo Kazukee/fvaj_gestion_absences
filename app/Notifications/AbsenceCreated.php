@@ -21,9 +21,9 @@ class AbsenceCreated extends Notification
     {
         $this->absence = $absence;
 
-        dd($absence = DB::table('absences')->orderBy('id', 'desc')->first());
+        //dd($absence = DB::table('absences')->orderBy('id', 'desc')->first());
 
-        //dd($absence);
+
     }
 
     /**
@@ -45,10 +45,26 @@ class AbsenceCreated extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->greeting('Bonjour !')
-                    ->subject('Nouvelle absence')
-                    ->line();
+        $msg = DB::table('absences')->select('eleves.titre AS titre', 'eleves.nom AS nom', 'eleves.prenom AS prenom', 'absences.raison AS raison',
+                        'absences.date_in AS date_in', 'absences.date_out AS date_out', 'absences.time_in AS time_in', 'absences.time_out AS time_out')
+                ->join('eleves', 'absences.eleve_id', '=', 'eleves.id')->orderBy('absences.id', 'desc')->first();
+
+        //dd($msg);
+        if(empty($msg->date_out)) {
+            return (new MailMessage)
+                ->greeting('Bonjour !')
+                ->subject('Nouvelle absence')
+                ->line('Une absence a été créée pour ' . $msg->titre . ' ' . $msg->prenom . ' ' . $msg->nom)
+                ->line('Il a été noté absent en date du ' . $msg->date_in . ' pour raison de ' . strtolower($msg->raison) . '.')
+                ->salutation('Merci d\'en prendre bonne note et meilleures salutations !');
+        } else {
+            return (new MailMessage)
+                ->greeting('Bonjour !')
+                ->subject('Nouvelle absence')
+                ->line('Une absence a été créée pour ' . $msg->titre . ' ' . $msg->prenom . ' ' . $msg->nom)
+                ->line('Il sera absent en date du ' . $msg->date_in . ' au ' . $msg->date_out . ' pour raison de ' . strtolower($msg->raison) . '.')
+                ->salutation('Merci d\'en prendre bonne note et meilleures salutations !');
+        }
     }
 
     /**
