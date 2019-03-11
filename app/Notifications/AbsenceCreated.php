@@ -49,20 +49,30 @@ class AbsenceCreated extends Notification
                         'absences.date_in AS date_in', 'absences.date_out AS date_out', 'absences.time_in AS time_in', 'absences.time_out AS time_out')
                 ->join('eleves', 'absences.eleve_id', '=', 'eleves.id')->orderBy('absences.id', 'desc')->first();
 
-        //dd($msg);
-        if(empty($msg->date_out)) {
+        if($msg->date_in == $msg->date_out && empty($msg->time_in) && empty($msg->time_out)) {
             return (new MailMessage)
                 ->greeting('Bonjour !')
                 ->subject('Nouvelle absence')
                 ->line('Une absence a été créée pour ' . $msg->titre . ' ' . $msg->prenom . ' ' . $msg->nom)
-                ->line('Il a été noté absent en date du ' . $msg->date_in . ' pour raison de ' . strtolower($msg->raison) . '.')
+                ->line('Il a été noté absent en date du ' . date('d.m.Y', strtotime($msg->date_in)) . ' pour raison de ' . strtolower($msg->raison) . '.')
                 ->salutation('Merci d\'en prendre bonne note et meilleures salutations !');
-        } else {
+        }
+
+        if(empty($msg->time_in) && empty($msg->time_out)){
             return (new MailMessage)
                 ->greeting('Bonjour !')
                 ->subject('Nouvelle absence')
                 ->line('Une absence a été créée pour ' . $msg->titre . ' ' . $msg->prenom . ' ' . $msg->nom)
-                ->line('Il sera absent en date du ' . $msg->date_in . ' au ' . $msg->date_out . ' pour raison de ' . strtolower($msg->raison) . '.')
+                ->line('Il sera absent en date du ' . date('d.m.Y', strtotime($msg->date_in)) . ' au ' . date('d.m.Y', strtotime($msg->date_out)) . ' pour raison de ' . strtolower($msg->raison) . '.')
+                ->salutation('Merci d\'en prendre bonne note et meilleures salutations !');
+        }
+
+        if($msg->date_in == $msg->date_out && !empty($msg->time_in) && !empty($msg->time_out)) {
+            return (new MailMEssage)
+                ->greeting('Bonjour !')
+                ->subject('Nouvelle absence')
+                ->line('Une absence a été créée pour ' . $msg->titre . ' ' . $msg->prenom . ' ' . $msg->nom)
+                ->line('Il a été noté absent en date du ' . date('d.m.Y', strtotime($msg->date_in)) . ' de  ' . $msg->time_in . ' à ' . $msg->time_out . ' pour raison de ' . strtolower($msg->raison) . '.')
                 ->salutation('Merci d\'en prendre bonne note et meilleures salutations !');
         }
     }

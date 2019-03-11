@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Eleve;
-use App\Utilisateur;
+use App\User;
 use App\Institution;
 use Illuminate\Http\Request;
 
@@ -16,9 +15,9 @@ class UtilisateurController extends Controller
      */
     public function index()
     {
-        $utilisateurs = Utilisateur::orderBy('nom')->paginate(20);
+        $users = User::orderBy('name')->paginate(20);
 
-        return view('utilisateur.index', compact('utilisateurs', 'institutions'));
+        return view('utilisateur.index', compact('users', 'institutions'));
     }
 
     /**
@@ -30,7 +29,7 @@ class UtilisateurController extends Controller
     {
         $institutions = Institution::orderBy('nom', 'asc')->get();
 
-        return view('utilisateur.create', compact('institutions'));
+        return view('auth.register', compact('institutions'));
     }
 
     /**
@@ -43,23 +42,21 @@ class UtilisateurController extends Controller
     {
         $request->validate([
             'titre' => 'required',
-            'nom' => 'required',
-            'prenom' => 'required',
+            'name' => 'required',
             'email' => 'required',
         ]);
 
-        $utilisateur = new Utilisateur;
+        $user = new User;
 
-        $utilisateur->institution_id = $request->get('institution');
-        $utilisateur->titre = $request->get('titre');
-        $utilisateur->nom = $request->get('nom');
-        $utilisateur->prenom = $request->get('prenom');
-        $utilisateur->email = $request->get('email');
-        $utilisateur->telephone = $request->get('telephone');
-        $utilisateur->date_de_naissance = $request->get('date_de_naissance');
-        $utilisateur->adresse = $request->get('adresse');
+        $user->institution_id = $request->get('institution');
+        $user->titre = $request->get('titre');
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->telephone = $request->get('telephone');
+        $user->date_de_naissance = $request->get('date_de_naissance');
+        $user->adresse = $request->get('adresse');
 
-        $utilisateur->save();
+        $user->save();
 
         return redirect()->route('utilisateur.index')
             ->with('success', 'Nouvel utilisateur ajouté avec succès.');
@@ -73,9 +70,9 @@ class UtilisateurController extends Controller
      */
     public function show($id)
     {
-        $utilisateur = Utilisateur::find($id);
+        $user = User::find($id);
 
-        return view('utilisateur.detail', compact('utilisateur'));
+        return view('utilisateur.detail', compact('user'));
     }
 
     /**
@@ -86,10 +83,10 @@ class UtilisateurController extends Controller
      */
     public function edit($id)
     {
-        $utilisateur = Utilisateur::find($id);
+        $user = User::find($id);
         $institutions = Institution::orderBy('nom', 'asc')->get();
 
-        return view('utilisateur.edit', compact('utilisateur', 'institutions'));
+        return view('utilisateur.edit', compact('user', 'institutions'));
     }
 
     /**
@@ -103,22 +100,20 @@ class UtilisateurController extends Controller
     {
         $request->validate([
             'titre' => 'required',
-            'nom' => 'required',
-            'prenom' => 'required',
+            'name' => 'required',
             'email' => 'required',
         ]);
 
-        $utilisateur = Utilisateur::find($id);
-        $utilisateur->institution_id = $request->get('institution');
-        $utilisateur->titre = $request->get('titre');
-        $utilisateur->nom = $request->get('nom');
-        $utilisateur->prenom = $request->get('prenom');
-        $utilisateur->telephone = $request->get('telephone');
-        $utilisateur->adresse = $request->get('adresse');
-        $utilisateur->date_de_naissance = $request->get('date_de_naissance');
-        $utilisateur->email = $request->get('email');
+        $user = User::find($id);
+        $user->institution_id = $request->get('institution');
+        $user->titre = $request->get('titre');
+        $user->nom = $request->get('name');
+        $user->telephone = $request->get('telephone');
+        $user->adresse = $request->get('adresse');
+        $user->date_de_naissance = $request->get('date_de_naissance');
+        $user->email = $request->get('email');
 
-        $utilisateur->save();
+        $user->save();
 
         return redirect()->route('utilisateur.index')
             ->with('success', 'Modifications apportées avec succès.');
@@ -132,8 +127,8 @@ class UtilisateurController extends Controller
      */
     public function destroy($id)
     {
-        $utilisateur = Utilisateur::find($id);
-        $utilisateur->delete();
+        $user = User::find($id);
+        $user->delete();
 
         return redirect()->route('utilisateur.index')
             ->with('success', 'L\'utilisateur a été supprimé avec succès !');

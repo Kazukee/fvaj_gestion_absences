@@ -20,8 +20,7 @@
             <tr>
                 <th><b>Institution</b></th>
                 <th><b>Titre</b></th>
-                <th><b>Nom</b></th>
-                <th><b>Prénom</b></th>
+                <th><b>Nom - Prénom</b></th>
                 <th><b>Téléphone</b></th>
                 <th><b>Adresse</b></th>
                 <th><b>Date de naissance</b></th>
@@ -29,20 +28,19 @@
                 <th width="220"><b>Action</b></th>
             </tr>
 
-            @foreach($utilisateurs as $utilisateur)
+            @foreach($users as $user)
                 <tr>
-                    <td><b>@if (empty($utilisateur->institution->nom)) @else {{$utilisateur->institution->nom}}@endif</b></td>
-                    <td><b>{{$utilisateur->titre}}</b></td>
-                    <td><b>{{$utilisateur->nom}}</b></td>
-                    <td><b>{{$utilisateur->prenom}}</b></td>
-                    <td><b>{{$utilisateur->telephone}}</b></td>
-                    <td><b>{{$utilisateur->adresse}}</b></td>
-                    <td><b>{{$utilisateur->date_de_naissance}}</b></td>
-                    <td><b>{{$utilisateur->email}}</b></td>
+                    <td><b>@if (empty($user->institution->nom)) @else {{$user->institution->nom}}@endif</b></td>
+                    <td><b>{{$user->titre}}</b></td>
+                    <td><b>{{$user->name}}</b></td>
+                    <td><b>{{$user->telephone}}</b></td>
+                    <td><b>{{$user->adresse}}</b></td>
+                    <td><b>{{$user->date_de_naissance}}</b></td>
+                    <td><b>{{$user->email}}</b></td>
                     <td>
-                        <form action="{{ route('utilisateur.destroy', $utilisateur->id) }}" method="post">
-                            <a class="btn btn-sm btn-success" href="{{ route('utilisateur.show', $utilisateur->id) }}">Voir</a>
-                            <a class="btn btn-sm btn-warning" href="{{ route('utilisateur.edit', $utilisateur->id) }}">Modifier</a>
+                        <form action="{{ route('utilisateur.destroy', $user->id) }}" method="post">
+                            <a class="btn btn-sm btn-success" href="{{ route('utilisateur.show', $user->id) }}">Voir</a>
+                            <a class="btn btn-sm btn-warning" href="{{ route('utilisateur.edit', $user->id) }}">Modifier</a>
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
@@ -51,6 +49,6 @@
                 </tr>
             @endforeach
         </table>
-        {!! $utilisateurs->links() !!}
+        {!! $users->links() !!}
     </div>
 @endsection

@@ -33,48 +33,43 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Institution :</strong> {{ $utilisateur->institution->nom }}
+                    <strong>Institution :</strong> {{ $user->institution->nom }}
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Titre :</strong> {{ $utilisateur->titre }}
+                    <strong>Titre :</strong> {{ $user->titre }}
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Nom :</strong> {{ $utilisateur->nom }}
+                    <strong>Nom - Prénom :</strong> {{ $user->nom }}
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Prénom :</strong> {{ $utilisateur->prenom }}
+                    <strong>Téléphone :</strong> {{ $user->telephone }}
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Téléphone :</strong> {{ $utilisateur->telephone }}
+                    <strong>Adresse :</strong> {{ $user->adresse }}
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Adresse :</strong> {{ $utilisateur->adresse }}
+                    <strong>Date de naissance :</strong> {{ $user->date_de_naissance }}
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Date de naissance :</strong> {{ $utilisateur->date_de_naissance }}
+                    <strong>Email :</strong> {{ $user->email }}
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="form-group">
-                    <strong>Email :</strong> {{ $utilisateur->email }}
-                </div>
-            </div>
-            <div class="col-md-12">
-                <form action="{{ route('utilisateur.destroy', $utilisateur->id) }}" method="post">
+                <form action="{{ route('utilisateur.destroy', $user->id) }}" method="post">
                     <a href="{{ route('utilisateur.index') }}" class="btn btn-sm btn-success">Retour</a>
-                    <a class="btn btn-sm btn-warning" href="{{ route('utilisateur.edit', $utilisateur->id) }}">Modifier</a>
+                    <a class="btn btn-sm btn-warning" href="{{ route('utilisateur.edit', $user->id) }}">Modifier</a>
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
@@ -82,7 +77,7 @@
             </div>
         </div>
         <hr>
-        @if (empty($utilisateur->eleves))
+        @if (empty($user->eleves))
 
         @else
         <div>
@@ -93,11 +88,11 @@
                     <th><b>Prénom</b></th>
                     <th><b></b></th>
                 </tr>
-                @foreach($utilisateur->eleves as $eleve)
+                @foreach($user->eleves as $eleve)
                     <td>{{ $eleve->classe->code }}</td>
                     <td>{{ $eleve->nom }}</td>
                     <td>{{ $eleve->prenom }}</td>
-                    <td><a href="{{ route('absence', $eleve->id) }}">Lien vers les absences</a></td>
+                    {{-- <td><a href="{{ route('absence', $eleve->id) }}">Lien vers les absences</a></td> --}}
                 @endforeach
             </table>
         </div>

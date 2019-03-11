@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Absence;
-use App\Utilisateur;
+use App\User;
 use Illuminate\Http\Request;
 use App\Eleve;
 use App\Classe;
@@ -31,9 +30,9 @@ class EleveController extends Controller
     public function create()
     {
         $classes = Classe::orderBy('code', 'asc')->get();
-        $utilisateurs = Utilisateur::orderBy('nom')->get();
+        $users = User::orderBy('name')->get();
 
-        return view('eleve.create', compact('classes', 'utilisateurs'));
+        return view('eleve.create', compact('classes', 'users'));
     }
 
     /**
@@ -67,7 +66,10 @@ class EleveController extends Controller
 
         $eleve->save();
 
-        $eleve->utilisateurs()->attach($request->get('utilisateur'));
+        foreach($request->get('users') as $user) {
+            $eleve->users()->attach($user);
+        }
+
 
         return redirect()->route('eleve.index')
                             ->with('success', 'Nouvel élève ajouté avec succès.');
@@ -154,7 +156,8 @@ class EleveController extends Controller
     public function chooseDates(Request $request, $id)
     {
         $request->validate([
-           'date_in' => 'required'
+           'date_in' => 'required',
+            'date_out' => 'required',
         ]);
 
         $eleve = Eleve::find($id);
@@ -216,12 +219,11 @@ class EleveController extends Controller
 
         $eleve = Eleve::find($id);
 
-        $absences = DB::table('absences')->select(DB::raw("CONCAT(utilisateurs.nom, ' ', utilisateurs.prenom) AS responsable"), 'raison',
-            DB::raw("DATE_FORMAT(absences.date_in, '%d.%m.%Y') AS date_in"), DB::raw("DATE_FORMAT(absences.date_out, '%d.%m.%Y') AS date_out"))
-            ->join('eleves', 'eleves.id', '=', 'absences.eleve_id')
-            ->join('eleve_utilisateur', 'eleves.id', '=', 'eleve_utilisateur.eleve_id')
-            ->join('utilisateurs', 'utilisateurs.id', '=', 'eleve_utilisateur.utilisateur_id')
-            ->where('eleves.id', '=', $eleve->id)->get();
+        $absences = DB::table('absences')->select('users.name', 'absences.raison', 'absences.date_in', 'absences.date_out')
+            ->join('eleves', 'absences.eleve_id', '=', 'eleves.id')
+            ->join('eleve_utilisateur', 'absences.eleve_utilisateur_id', '=', 'eleve_utilisateur.id')
+            ->join('users', 'eleve_utilisateur.user_id', '=', 'users.id')
+            ->where('absences.eleve_id', '=', $eleve->id)->get();
 
         return view('eleve.absence', compact('eleve', 'absences'));
     }

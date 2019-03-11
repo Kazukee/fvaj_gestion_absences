@@ -18,7 +18,7 @@
             </div>
         @endif
 
-        <form action="{{ route('utilisateur.update', $utilisateur->id) }}" method="post">
+        <form action="{{ route('utilisateur.update', $user->id) }}" method="post">
             @csrf
             @method('PUT')
             <div class="row">
@@ -27,40 +27,36 @@
                     <select name="institution" class="form-control">
                         <option hidden disabled selected value> -- Choisir une option -- </option>
                         @foreach($institutions as $institution)
-                            <option value="{{ $institution->id }}" @if ($institution->id == $utilisateur->institution_id) selected="selected" @endif>{{ $institution->nom }}</option>
+                            <option value="{{ $institution->id }}" @if ($institution->id == $user->institution_id) selected="selected" @endif>{{ $institution->nom }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-12">
                     <strong>Titre :</strong>
                     <select name="titre" class="form-control">
-                        <option value="Madame" @if ($utilisateur->titre == 'Madame') selected="selected" @endif>Madame</option>
-                        <option value="Monsieur" @if ($utilisateur->titre == 'Monsieur') selected="selected" @endif>Monsieur</option>
+                        <option value="Madame" @if ($user->titre == 'Madame') selected="selected" @endif>Madame</option>
+                        <option value="Monsieur" @if ($user->titre == 'Monsieur') selected="selected" @endif>Monsieur</option>
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <strong>Nom :</strong>
-                    <input type="text" name="nom" class="form-control" value="{{ $utilisateur->nom }}">
-                </div>
-                <div class="col-md-12">
-                    <strong>Prénom :</strong>
-                    <input type="text" name="prenom" class="form-control" value="{{ $utilisateur->prenom }}">
+                    <strong>Nom - Prénom :</strong>
+                    <input type="text" name="nom" class="form-control" value="{{ $user->name }}">
                 </div>
                 <div class="col-md-12">
                     <strong>Téléphone :</strong>
-                    <input type="text" name="telephone" class="form-control" value="{{ $utilisateur->telephone }}">
+                    <input type="text" name="telephone" class="form-control" value="{{ $user->telephone }}">
                 </div>
                 <div class="col-md-12">
                     <strong>Adresse :</strong>
-                    <input type="text" name="adresse" class="form-control" value="{{ $utilisateur->adresse }}">
+                    <input type="text" name="adresse" class="form-control" value="{{ $user->adresse }}">
                 </div>
                 <div class="col-md-12">
                     <strong>Date de naissance :</strong>
-                    <input type="date" name="date_de_naissance" class="form-control" value="{{ $utilisateur->date_de_naissance }}">
+                    <input type="date" name="date_de_naissance" class="form-control" value="{{ $user->date_de_naissance }}">
                 </div>
                 <div class="col-md-12">
                     <strong>Email :</strong>
-                    <input type="text" name="email" class="form-control" value="{{ $utilisateur->email }}">
+                    <input type="text" name="email" class="form-control" value="{{ $user->email }}">
                 </div>
                 <div class="col-md-12">
                     <a href="{{ route('utilisateur.index') }}" class="btn btn-sm btn-success">Retour</a>

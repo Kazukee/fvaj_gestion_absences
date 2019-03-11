@@ -32,8 +32,8 @@ class AbsenceCreated
      */
     public function handle(AbsenceCreatedEvent $event)
     {
-        $utilisateurs = DB::table('utilisateurs')->select('utilisateurs.email')
-                            ->join('eleve_utilisateur', 'utilisateurs.id', '=', 'eleve_utilisateur.utilisateur_id')
+        $utilisateurs = DB::table('users')->select('users.email')
+                            ->join('eleve_utilisateur', 'users.id', '=', 'eleve_utilisateur.user_id')
                             ->where('eleve_utilisateur.eleve_id', '=', $event->absence->eleve_id)->get();
 
         foreach ($utilisateurs as $utilisateur) {

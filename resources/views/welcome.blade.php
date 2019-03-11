@@ -182,7 +182,7 @@
             </div>
             <div class="content">
                 <div class="title m-b-md">
-                    Bienvenue sur la gestion des absences de la FVAJ
+                    Bienvenue sur le système de gestion des absences de la FVAJ
                 </div>
                 <div>
                     L'outil de gestion des absences du Programme Action Apprentissage

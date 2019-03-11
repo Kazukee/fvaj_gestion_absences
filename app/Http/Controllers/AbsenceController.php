@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Absence;
 use App\Eleve;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AbsenceController extends Controller
 {
@@ -40,6 +42,10 @@ class AbsenceController extends Controller
      */
     public function store(Request $request)
     {
+        $eleve_utilisateur = DB::table('eleve_utilisateur')->select('eleve_utilisateur.id')
+                                ->join('users', 'eleve_utilisateur.user_id', '=', 'users.id')
+                                ->where('users.id', '=', Auth::id())->get();
+
         $request->validate([
             'eleve' => 'required',
             'date_in' => 'required',
@@ -50,6 +56,7 @@ class AbsenceController extends Controller
         $absence = new Absence;
 
         $absence->eleve_id = $request->get('eleve');
+        $absence->eleve_utilisateur_id = $eleve_utilisateur[0]->id;
         $absence->date_in = $request->get('date_in');
         $absence->date_out = $request->get('date_out');
         $absence->time_in = $request->get('time_in');
@@ -107,7 +114,6 @@ class AbsenceController extends Controller
 
         $absence = Absence::find($id);
         $absence->eleve_id = $request->get('eleve');
-        //$absence->eleve_utilisateur_id = Auth::id();
         $absence->date_in = $request->get('date_in');
         $absence->date_out = $request->get('date_out');
         $absence->time_in = $request->get('time_in');

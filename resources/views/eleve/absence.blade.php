@@ -13,7 +13,7 @@
             </tr>
             @foreach($absences as $absence)
                 <tr>
-                    <td><b>{{$absence->responsable}}</b></td>
+                    <td><b>{{$absence->name}}</b></td>
                     <td><b>{{$absence->raison}}</b></td>
                     <td><b>{{$absence->date_in}}</b></td>
                     <td><b>{{$absence->date_out}}</b></td>
@@ -21,7 +21,7 @@
             @endforeach
         </table>
     @endif
-    <form action="{{ route('absences_eleve', 'id') }}" method="post">
+    <form action="{{ route('accueil') }}" method="post">
         @csrf
         <input type="date" name="date_in" value="2019-03-01">
         <input type="date" name="date_out" value="2019-03-31">

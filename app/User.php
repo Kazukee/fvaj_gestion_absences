@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'institution_id', 'titre', 'name', 'telephone', 'adresse', 'date_de_naissance', 'email', 'password'
     ];
 
     /**
@@ -36,4 +36,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function matiere() {
+        return $this->hasOne('App\Matiere');
+    }
+
+    public function institution() {
+        return $this->belongsTo('App\Institution');
+    }
+
+    public function eleves() {
+        return $this->belongsToMany('App\Eleve', 'eleve_utilisateur')->withPivot('eleve_id', 'user_id');
+    }
+
+    public function routeNotificationForMail($notification) {
+        return $this->email;
+    }
 }

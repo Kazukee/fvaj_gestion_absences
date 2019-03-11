@@ -13,10 +13,6 @@ class Utilisateur extends Model
         'institution_id', 'titre', 'nom', 'prenom', 'telephone', 'adresse', 'date_de_naissance', 'email', 'mot_de_passe'
     ];
 
-    protected $hidden = [
-        'mot_de_passe', 'remember_token',
-    ];
-
     public function matiere() {
         return $this->hasOne('App\Matiere');
     }
@@ -27,9 +23,5 @@ class Utilisateur extends Model
 
     public function eleves() {
         return $this->belongsToMany('App\Eleve', 'eleve_utilisateur')->withPivot('eleve_id', 'utilisateur_id');
-    }
-
-    public function routeNotificationForMail($notification) {
-        return $this->email;
     }
 }

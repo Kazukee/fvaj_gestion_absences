@@ -38,12 +38,8 @@
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <strong>Nom :</strong>
-                    <input type="text" name="nom" class="form-control" placeholder="Nom">
-                </div>
-                <div class="col-md-12">
-                    <strong>Prénom :</strong>
-                    <input type="text" name="prenom" class="form-control" placeholder="Prénom">
+                    <strong>Nom - Prénom:</strong>
+                    <input type="text" name="name" class="form-control" placeholder="Nom Prénom">
                 </div>
                 <div class="col-md-12">
                     <strong>Téléphone :</strong>

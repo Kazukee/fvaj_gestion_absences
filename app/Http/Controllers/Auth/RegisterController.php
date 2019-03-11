@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Institution;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -28,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -49,7 +52,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'institution' => ['required'],
+            'titre' => ['required'],
             'name' => ['required', 'string', 'max:255'],
+            'telephone' => ['string', 'max:13'],
+            'adresse' => ['string', 'max:255'],
+            'date_de_naissance' => ['date'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
@@ -64,9 +72,32 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'institution_id' => $data['institution'],
+            'titre' => $data['titre'],
             'name' => $data['name'],
+            'telephone' => $data['telephone'],
+            'adresse' => $data['adresse'],
+            'date_de_naissace' => ['date_de_naissance'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    protected function showRegistrationForm() {
+        $institutions = Institution::orderBy('nom', 'asc')->get();
+
+        return view('auth.register', compact('institutions'));
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        // $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
 }

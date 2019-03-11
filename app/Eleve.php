@@ -16,7 +16,7 @@ class Eleve extends Model
         return $this->belongsTo('App\Classe');
     }
 
-    public function utilisateurs() {
-        return $this->belongsToMany('App\Utilisateur', 'eleve_utilisateur')->withPivot('eleve_id', 'utilisateur_id');
+    public function users() {
+        return $this->belongsToMany('App\User', 'eleve_utilisateur')->withPivot('eleve_id', 'user_id');
     }
 }

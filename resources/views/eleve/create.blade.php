@@ -56,24 +56,69 @@
                     <strong>Email interne :</strong>
                     <input type="text" name="email_interne" class="form-control" placeholder="Email interne">
                 </div>
-                <div class="col-md-12">
+                <div id="email" class="col-md-12">
                     <strong>Email externe :</strong>
                     <input type="text" name="email_externe" class="form-control" placeholder="Email externe">
                 </div>
-                <div class="col-md-12">
+                <div id="user" class="col-md-12">
                     <strong>Responsable :</strong>
-                    <select name="utilisateur" class="form-control">
+                    <select name="users[]" class="form-control">
                         <option hidden disabled selected value> -- Choisir une option -- </option>
-                        @foreach($utilisateurs as $utilisateur)
-                            <option value="{{ $utilisateur->id }}">{{ $utilisateur->nom }} {{ $utilisateur->prenom }}</option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-12">
                     <a href="{{ route('eleve.index') }}" class="btn btn-sm btn-success">Retour</a>
                     <button type="submit" class="btn btn-sm btn-primary">Envoyer</button>
+                    <button type="button" id="addResponsable" class="btn add-more">+</button>
                 </div>
             </div>
         </form>
     </div>
+
+    {{-- <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#addUser').click(function(){
+                i++;
+
+                $('#user').append(
+                    '<div class="cold-md-12">'
+                    + '<strong>Responsable + i + :</strong>'
+                    + '<select id="user" name="user" class="form-control">'
+                    + '<option hidden disabled selected value> -- Choisir une option -- </option>'
+                    @foreach($users as $user)
+                    + '<option value="{{ $user->id }}"> {{ $user->name }}</option>'
+                    @endforeach
+                    + '</select>'
+                    + '<div>'
+                );
+            });
+        });
+    </script> --}}
+
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+           $(".add-more").click(function(e) {
+               e.preventDefault();
+               $('#user').append(
+                   '<div class="cold-md-12">'
+                   + '<strong>Responsable :</strong>'
+                   + '<select id="user" name="users[]" class="form-control">'
+                   + '<option hidden disabled selected value> -- Choisir une option -- </option>'
+                   @foreach($users as $user)
+                   + '<option value="{{ $user->id }}"> {{ $user->name }}</option>'
+                   @endforeach
+                   + '</select>'
+                   + '<div>'
+               );
+           });
+        });
+
+    </script>
 @endsection
