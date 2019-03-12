@@ -44,14 +44,15 @@ class EleveController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'classe' => 'required',
-            'titre' => 'required',
-            'nom' => 'required',
-            'prenom' => 'required',
-            'telephone' => 'required',
-            'adresse' => 'required',
-            'email_interne' => 'required',
-        ]);
+        'classe' => 'required',
+        'titre' => 'required',
+        'nom' => 'required|max:45',
+        'prenom' => 'required|max:45',
+        'telephone' => 'required|max:13',
+        'adresse' => 'required|max:255',
+        'email_interne' => 'required|max:45',
+        'email_externe' => 'nullable|max:45',
+    ]);
 
         $eleve = new Eleve;
 
@@ -85,7 +86,7 @@ class EleveController extends Controller
     {
         $eleve = Eleve::find($id);
 
-        return view('eleve.detail', compact('eleve', 'classe', 'absences_jour'));
+        return view('eleve.detail', compact('eleve'));
     }
 
     /**
@@ -98,8 +99,9 @@ class EleveController extends Controller
     {
         $eleve = Eleve::find($id);
         $classes = Classe::orderBy('code', 'asc')->get();
+        $responsables = User::all();
 
-        return view('eleve.edit', compact('eleve', 'classes'));
+        return view('eleve.edit', compact('eleve', 'classes', 'responsables'));
     }
 
     /**
@@ -114,11 +116,12 @@ class EleveController extends Controller
         $request->validate([
             'classe' => 'required',
             'titre' => 'required',
-            'nom' => 'required',
-            'prenom' => 'required',
-            'telephone' => 'required',
-            'adresse' => 'required',
-            'email_interne' => 'required',
+            'nom' => 'required|max:45',
+            'prenom' => 'required|max:45',
+            'telephone' => 'required|max:13',
+            'adresse' => 'required|max:255',
+            'email_interne' => 'required|max:45',
+            'email_externe' => 'nullable|max:45',
         ]);
 
         $eleve = Eleve::find($id);
@@ -132,6 +135,12 @@ class EleveController extends Controller
         $eleve->email_externe = $request->get('email_externe');
 
         $eleve->save();
+
+        $eleve->users()->detach();
+
+        foreach($request->get('users') as $user) {
+            $eleve->users()->attach($user);
+        }
 
         return redirect()->route('eleve.index')
                             ->with('success', 'Modifications apportées avec succès.');

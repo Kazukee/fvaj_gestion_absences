@@ -61,11 +61,50 @@
                     <strong>Email externe :</strong>
                     <input type="text" name="email_externe" class="form-control" value="{{ $eleve->email_externe }}">
                 </div>
+                    <div id="user" class="col-md-12">
+                        @foreach($eleve->users as $user)
+                            <strong>Responsable :</strong>
+                            <select name="users[]" class="form-control">
+                                <option hidden disabled selected value> -- Choisir une option -- </option>
+                                @foreach($responsables as $responsable)
+                                    <option value="{{ $responsable->id }}" @if ($user->id == $responsable->id) selected="selected" @endif>{{ $responsable->name }}</option>
+                                @endforeach
+                            </select>
+                        @endforeach
+                    </div>
                 <div class="col-md-12">
                     <a href="{{ route('eleve.index') }}" class="btn btn-sm btn-success">Retour</a>
                     <button type="submit" class="btn btn-sm btn-primary">Envoyer</button>
+                    <button type="button" id="addResponsable" class="btn add-more">+</button>
+                    <button type="button" id="removeResponsable" class="btn remove">-</button>
                 </div>
             </div>
         </form>
     </div>
+    {{-- Ajout et suppression d'un responsable --}}
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $(".add-more").click(function(e) {
+                e.preventDefault();
+                $('#user').append(
+                    '<strong>Responsable :</strong>'
+                    + '<select id="user" name="users[]" class="form-control">'
+                    + '<option hidden disabled selected value> -- Choisir une option -- </option>'
+                    @foreach($responsables as $responsable)
+                    + '<option value="{{ $responsable->id }}"> {{ $responsable->name }}</option>'
+                    @endforeach
+                    + '</select>'
+                );
+            });
+
+            $(".remove").click(function(e) {
+                e.preventDefault();
+                $('#user strong:last').remove();
+                $('#user select:last').remove();
+            });
+        });
+
+    </script>
 @endsection

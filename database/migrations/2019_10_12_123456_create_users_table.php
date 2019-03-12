@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
 
             $table->increments('id')->unique();
             $table->unsignedInteger('institution_id')->nullable($value = true);
+            $table->unsignedInteger('role_id')->nullable($value = true);
             $table->enum('titre', ['Madame', 'Monsieur']);
             $table->string('name');
             $table->string('prenom');
@@ -33,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->foreign('institution_id')->references('id')->on('institutions');
+            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 

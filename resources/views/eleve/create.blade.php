@@ -61,7 +61,7 @@
                 </div>
                 <div id="user" class="col-md-12">
                     <strong>Responsable :</strong>
-                    <select name="users[]" class="form-control">
+                    <select id="responsable" name="users[]" class="form-control">
                         <option hidden disabled selected value> -- Choisir une option -- </option>
                         @foreach($users as $user)
                             <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -72,33 +72,12 @@
                     <a href="{{ route('eleve.index') }}" class="btn btn-sm btn-success">Retour</a>
                     <button type="submit" class="btn btn-sm btn-primary">Envoyer</button>
                     <button type="button" id="addResponsable" class="btn add-more">+</button>
+                    <button type="button" id="removeResponsable" class="btn remove">-</button>
                 </div>
             </div>
         </form>
     </div>
-
-    {{-- <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#addUser').click(function(){
-                i++;
-
-                $('#user').append(
-                    '<div class="cold-md-12">'
-                    + '<strong>Responsable + i + :</strong>'
-                    + '<select id="user" name="user" class="form-control">'
-                    + '<option hidden disabled selected value> -- Choisir une option -- </option>'
-                    @foreach($users as $user)
-                    + '<option value="{{ $user->id }}"> {{ $user->name }}</option>'
-                    @endforeach
-                    + '</select>'
-                    + '<div>'
-                );
-            });
-        });
-    </script> --}}
-    {{-- Ajout d'un responsable --}}
+    {{-- Ajout et suppression d'un responsable --}}
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript">
 
@@ -106,16 +85,20 @@
            $(".add-more").click(function(e) {
                e.preventDefault();
                $('#user').append(
-                   '<div class="cold-md-12">'
-                   + '<strong>Responsable :</strong>'
+                   '<strong>Responsable :</strong>'
                    + '<select id="user" name="users[]" class="form-control">'
                    + '<option hidden disabled selected value> -- Choisir une option -- </option>'
                    @foreach($users as $user)
                    + '<option value="{{ $user->id }}"> {{ $user->name }}</option>'
                    @endforeach
                    + '</select>'
-                   + '<div>'
                );
+           });
+
+           $(".remove").click(function(e) {
+                e.preventDefault();
+                $('#user strong:last').remove();
+                $('#user select:last').remove();
            });
         });
 

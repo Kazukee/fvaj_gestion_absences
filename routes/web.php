@@ -29,7 +29,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 /* Route de gestions des tables de notre base de données */
-ROute::get('eleve.absence', 'EleveController@method');
 
 Route::resource('eleve', 'EleveController');
 
