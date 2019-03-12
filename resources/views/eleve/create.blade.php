@@ -17,7 +17,6 @@
                 </ul>
             </div>
         @endif
-
         <form action="{{ route('eleve.store') }}" method="post">
             @csrf
             <div class="row">
@@ -99,7 +98,7 @@
             });
         });
     </script> --}}
-
+    {{-- Ajout d'un responsable --}}
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript">
 

@@ -96,5 +96,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="bootstrap3-typeahead" level="application" />
+    <orderEntry type="library" name="jquery-1.11.0" level="application" />
   </component>
 </module>

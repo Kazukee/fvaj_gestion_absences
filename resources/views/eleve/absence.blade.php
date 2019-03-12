@@ -5,6 +5,7 @@
         @if(empty($absences->count()))
             <p>Cet élève n'a jamais été absent.</p>
         @else
+
             <tr>
                 <th><b>Absence reportée par</b></th>
                 <th><b>Cause</b></th>
@@ -19,12 +20,12 @@
                     <td><b>{{$absence->date_out}}</b></td>
                 </tr>
             @endforeach
+            @endif
         </table>
-    @endif
-    <form action="{{ route('accueil') }}" method="post">
+    <form action="{{ route('absences_eleve', $eleve->id) }}" method="post">
         @csrf
-        <input type="date" name="date_in" value="2019-03-01">
-        <input type="date" name="date_out" value="2019-03-31">
+        <input type="date" name="date_in" value="<?php echo date('Y-m-d')?>">
+        <input type="date" name="date_out" value="<?php echo date('Y-m-d')?>">
         <input type="hidden" name="id" value="35">
         <button type="submit" class="btn btn-sm btn-primary">Envoyer</button>
     </form>

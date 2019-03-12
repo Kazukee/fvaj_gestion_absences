@@ -140,4 +140,65 @@ class AbsenceController extends Controller
         return redirect()->route('absence.index')
             ->with('success', 'L\'absence a été supprimée avec succès !');
     }
+
+    public function chooseDates(Request $request, $id)
+    {
+        $request->validate([
+            'date_in' => 'required',
+            'date_out' => 'required',
+        ]);
+
+        $date_in = $request->get('date_in');
+        $date_out = $request->get('date_out');
+
+        $eleve = Eleve::find($id);
+
+        $absences = DB::table('absences')->select(DB::raw("CONCAT(utilisateurs.nom, ' ', utilisateurs.prenom) AS responsable"), 'raison',
+            DB::raw("DATE_FORMAT(absences.date_in, '%d.%m.%Y') AS date_in"), DB::raw("DATE_FORMAT(absences.date_out, '%d.%m.%Y') AS date_out"))
+            ->join('eleves', 'eleves.id', '=', 'absences.eleve_id')
+            ->join('eleve_utilisateur', 'eleve_utilisateur.id', '=', 'absences.eleve_utilisateur_id')
+            ->join('utilisateurs', 'utilisateurs.id', '=', 'eleve_utilisateur.utilisateur_id')
+            ->whereDate('date_in', '=', '2019-03-01')
+            ->whereDate('date_out', '=', '2019-03-01')
+            ->where('eleves.id', '=', $eleve)->get();
+
+        return redirect()->route('dates_absences', compact($absences));
+    }
+
+    public function getAbsences(Request $request, $id)
+    {
+        $eleve = Eleve::find($id);
+
+        if(empty($request->except('_token'))) {
+            $absences = DB::table('absences')->select('users.name', 'absences.raison', 'absences.date_in', 'absences.date_out')
+                            ->join('eleves', 'absences.eleve_id', '=', 'eleves.id')
+                            ->join('eleve_utilisateur', 'absences.eleve_utilisateur_id', '=', 'eleve_utilisateur.id')
+                            ->join('users', 'eleve_utilisateur.user_id', '=', 'users.id')
+                            ->where('absences.eleve_id', '=', $eleve->id)->get();
+        } else {
+            $absences = DB::table('absences')->select('users.name', 'absences.raison', 'absences.date_in', 'absences.date_out')
+                            ->join('eleves', 'absences.eleve_id', '=', 'eleves.id')
+                            ->join('eleve_utilisateur', 'absences.eleve_utilisateur_id', '=', 'eleve_utilisateur.id')
+                            ->join('users', 'eleve_utilisateur.user_id', '=', 'users.id')
+                            ->where([
+                                ['eleves.id', '=', $eleve->id],
+                                ['absences.date_in', '>=', $request->get('date_in')],
+                                ['absences.date_out', '<=', $request->get('date_out')]
+                            ])->orWhere([
+                                 ['eleves.id', '=', $eleve->id],
+                                ['absences.date_in', '<', $request->get('date_in')],
+                                ['absences.date_out', '>=', $request->get('date_in')]
+                            ])->orWhere([
+                                ['eleves.id', '=', $eleve->id],
+                                ['absences.date_in', '<', $request->get('date_out')],
+                                ['absences.date_out', '>=', $request->get('date_out')]
+                            ])->orWhere([
+                                ['eleves.id', '=', $eleve->id],
+                                ['absences.date_in', '<', $request->get('date_in')],
+                                ['absences.date_out', '>', $request->get('date_out')]
+                            ])->get();
+        }
+
+        return view('eleve.absence', compact('eleve', 'absences', 'date'));
+    }
 }
