@@ -24,15 +24,15 @@
             <div class="row">
                 <div class="col-md-12">
                     <strong>Nom :</strong>
-                    <input type="text" name="nom" class="form-control" value="{{ $institution->nom }}">
+                    <input type="text" name="nom" class="form-control" value="{{ $institution->nom }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Adresse :</strong>
-                    <input type="text" name="adresse" class="form-control" value="{{ $institution->adresse }}">
+                    <input type="text" name="adresse" class="form-control" value="{{ $institution->adresse }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Téléphone :</strong>
-                    <input type="text" name="telephone" class="form-control" value="{{ $institution->telephone }}">
+                    <input type="text" name="telephone" class="form-control" value="{{ $institution->telephone }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Email :</strong>

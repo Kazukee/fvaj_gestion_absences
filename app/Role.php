@@ -8,7 +8,7 @@ class Role extends Model
 {
     protected $fillable = ['label'];
 
-    public function eleves_utilisateurs() {
-        return $this->hasMany('App\EleveUtilisateur');
+    public function users() {
+        return $this->hasMany('App\User');
     }
 }

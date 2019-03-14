@@ -37,10 +37,10 @@ class InstitutionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nom' => 'required',
-            'adresse' => 'required',
-            'telephone' => 'required',
-            'email' => 'required',
+            'nom' => 'required|max:45',
+            'adresse' => 'required|max:255',
+            'telephone' => 'required|max:13',
+            'email' => 'nullable|max:45',
         ]);
 
         Institution::create($request->all());
@@ -85,10 +85,10 @@ class InstitutionController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nom' => 'required',
-            'adresse' => 'required',
-            'telephone' => 'required',
-            'email' => 'required',
+            'nom' => 'required|max:45',
+            'adresse' => 'required|max:255',
+            'telephone' => 'required|max:13',
+            'email' => 'nullable|max:45',
         ]);
 
         $institution = Institution::find($id);

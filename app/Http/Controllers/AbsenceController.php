@@ -50,6 +50,8 @@ class AbsenceController extends Controller
             'eleve' => 'required',
             'date_in' => 'required',
             'date_out' => 'required',
+            'time_in' => 'nullable',
+            'time_out' => 'nullable',
             'raison' => 'required',
         ]);
 
@@ -109,6 +111,8 @@ class AbsenceController extends Controller
             'eleve' => 'required',
             'date_in' => 'required',
             'date_out' => 'required',
+            'time_in' => 'nullable',
+            'time_out' => 'nullable',
             'raison' => 'required',
         ]);
 
@@ -147,9 +151,6 @@ class AbsenceController extends Controller
             'date_in' => 'required',
             'date_out' => 'required',
         ]);
-
-        $date_in = $request->get('date_in');
-        $date_out = $request->get('date_out');
 
         $eleve = Eleve::find($id);
 

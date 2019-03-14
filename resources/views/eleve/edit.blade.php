@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <strong>Classe :</strong>
-                    <select name="classe" class="form-control">
+                    <select name="classe" class="form-control" required>
                         @foreach($classes as $classe)
                             <option value="{{ $classe->id }}" @if ($classe->id == $eleve->classe_id) selected="selected" @endif>{{ $classe->code }}</option>
                         @endforeach
@@ -32,30 +32,30 @@
                 </div>
                 <div class="col-md-12">
                     <strong>Titre :</strong>
-                    <select name="titre" class="form-control">
+                    <select name="titre" class="form-control" required>
                         <option value="Madame" @if ($eleve->titre == 'Madame') selected="selected" @endif>Madame</option>
                         <option value="Monsieur" @if ($eleve->titre == 'Monsieur') selected="selected" @endif>Monsieur</option>
                     </select>
                 </div>
                 <div class="col-md-12">
                     <strong>Nom :</strong>
-                    <input type="text" name="nom" class="form-control" value="{{ $eleve->nom }}">
+                    <input type="text" name="nom" class="form-control" value="{{ $eleve->nom }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Prénom :</strong>
-                    <input type="text" name="prenom" class="form-control" value="{{ $eleve->prenom }}">
+                    <input type="text" name="prenom" class="form-control" value="{{ $eleve->prenom }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Téléphone :</strong>
-                    <input type="text" name="telephone" class="form-control" value="{{ $eleve->telephone }}">
+                    <input type="text" name="telephone" class="form-control" value="{{ $eleve->telephone }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Adresse :</strong>
-                    <input type="text" name="adresse" class="form-control" value="{{ $eleve->adresse }}">
+                    <input type="text" name="adresse" class="form-control" value="{{ $eleve->adresse }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Email interne :</strong>
-                    <input type="text" name="email_interne" class="form-control" value="{{ $eleve->email_interne }}">
+                    <input type="text" name="email_interne" class="form-control" value="{{ $eleve->email_interne }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Email externe :</strong>
@@ -64,7 +64,7 @@
                     <div id="user" class="col-md-12">
                         @foreach($eleve->users as $user)
                             <strong>Responsable :</strong>
-                            <select name="users[]" class="form-control">
+                            <select name="users[]" class="form-control" required>
                                 <option hidden disabled selected value> -- Choisir une option -- </option>
                                 @foreach($responsables as $responsable)
                                     <option value="{{ $responsable->id }}" @if ($user->id == $responsable->id) selected="selected" @endif>{{ $responsable->name }}</option>

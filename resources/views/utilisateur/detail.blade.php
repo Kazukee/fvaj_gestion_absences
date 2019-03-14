@@ -38,6 +38,11 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
+                    <strong>Rôle :</strong> {{ $user->role }}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
                     <strong>Titre :</strong> {{ $user->titre }}
                 </div>
             </div>
@@ -86,13 +91,13 @@
                     <th><b>Classe</b></th>
                     <th><b>Nom</b></th>
                     <th><b>Prénom</b></th>
-                    <th><b></b></th>
                 </tr>
                 @foreach($user->eleves as $eleve)
-                    <td>{{ $eleve->classe->code }}</td>
-                    <td>{{ $eleve->nom }}</td>
-                    <td>{{ $eleve->prenom }}</td>
-                    {{-- <td><a href="{{ route('absence', $eleve->id) }}">Lien vers les absences</a></td> --}}
+                    <tr>
+                        <td>{{ $eleve->classe->code }}</td>
+                        <td>{{ $eleve->nom }}</td>
+                        <td>{{ $eleve->prenom }}</td>
+                    </tr>
                 @endforeach
             </table>
         </div>

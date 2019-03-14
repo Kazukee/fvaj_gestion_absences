@@ -41,9 +41,13 @@ class UtilisateurController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'institution' => 'nullable',
             'titre' => 'required',
-            'name' => 'required',
-            'email' => 'required',
+            'name' => 'required|max255',
+            'telephone' => 'nullable|max:13',
+            'adresse' => 'nullable|max:255',
+            'date_de_naissance' => 'nullable',
+            'email' => 'required|max:255',
         ]);
 
         $user = new User;
@@ -99,13 +103,19 @@ class UtilisateurController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'institution' => 'nullable',
+            'role' => 'required',
             'titre' => 'required',
-            'name' => 'required',
-            'email' => 'required',
+            'name' => 'required|max255',
+            'telephone' => 'nullable|max:13',
+            'adresse' => 'nullable|max:255',
+            'date_de_naissance' => 'nullable',
+            'email' => 'required|max:255',
         ]);
 
         $user = User::find($id);
         $user->institution_id = $request->get('institution');
+        $user->role = $request->get('role');
         $user->titre = $request->get('titre');
         $user->nom = $request->get('name');
         $user->telephone = $request->get('telephone');

@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <strong>Elève:</strong>
-                    <select name="eleve" class="form-control">
+                    <select name="eleve" class="form-control" required>
                         @foreach($eleves as $eleve)
                             <option value="{{ $eleve->id }}">{{ $eleve->nom }} {{ $eleve->prenom }}</option>
                         @endforeach
@@ -31,11 +31,11 @@
                 </div>
                 <div class="col-md-12">
                     <strong>Date de début :</strong>
-                    <input type="date" name="date_in" value="">
+                    <input type="date" name="date_in" value="" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Date de fin :</strong>
-                    <input type="date" name="date_out" value="">
+                    <input type="date" name="date_out" value="" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Heure de début :</strong>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-md-12">
                     <strong>Raison :</strong>
-                    <select name="raison" class="form-control">
+                    <select name="raison" class="form-control" required>
                         <option hidden disabled selected value> -- Choisir une option -- </option>
                         <option value="Maladie">Maladie</option>
                         <option value="Absence">Absence</option>

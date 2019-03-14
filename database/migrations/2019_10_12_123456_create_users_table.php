@@ -18,9 +18,9 @@ class CreateUsersTable extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
 
-            $table->increments('id')->unique();
+            $table->increments('id')->unique()->unsigned();
             $table->unsignedInteger('institution_id')->nullable($value = true);
-            $table->unsignedInteger('role_id')->nullable($value = true);
+            $table->unsignedInteger('role_id');
             $table->enum('titre', ['Madame', 'Monsieur']);
             $table->string('name');
             $table->string('prenom');

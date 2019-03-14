@@ -23,11 +23,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <strong>Code :</strong>
-                    <input type="text" name="code" class="form-control" placeholder="Code">
+                    <input type="text" name="code" class="form-control" placeholder="Code" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Volée :</strong>
-                    <select name="volee" class="form-control">
+                    <select name="volee" class="form-control" required>
                         <option hidden disabled selected value> -- Choisir une option -- </option>
                         @foreach($volees as $volee)
                             <option value="{{ $volee->id }}">{{ $volee->label }}</option>

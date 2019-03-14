@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <strong>Classe :</strong>
-                    <select name="classe" class="form-control">
+                    <select name="classe" class="form-control" required>
                         @foreach($classes as $classe)
                             <option value="{{ $classe->id }}">{{ $classe->code }}</option>
                         @endforeach
@@ -30,30 +30,30 @@
                 </div>
                 <div class="col-md-12">
                     <strong>Titre :</strong>
-                    <select name="titre" class="form-control">
+                    <select name="titre" class="form-control" required>
                         <option value="Madame">Madame</option>
                         <option value="Monsieur">Monsieur</option>
                     </select>
                 </div>
                 <div class="col-md-12">
                     <strong>Nom :</strong>
-                    <input type="text" name="nom" class="form-control" placeholder="Nom">
+                    <input type="text" name="nom" class="form-control" placeholder="Nom" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Prénom :</strong>
-                    <input type="text" name="prenom" class="form-control" placeholder="Prénom">
+                    <input type="text" name="prenom" class="form-control" placeholder="Prénom" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Téléphone :</strong>
-                    <input type="text" name="telephone" class="form-control" placeholder="Téléphone">
+                    <input type="text" name="telephone" class="form-control" placeholder="Téléphone" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Adresse :</strong>
-                    <input type="text" name="adresse" class="form-control" placeholder="Adresse, NPA Localité">
+                    <input type="text" name="adresse" class="form-control" placeholder="Adresse, NPA Localité" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Email interne :</strong>
-                    <input type="text" name="email_interne" class="form-control" placeholder="Email interne">
+                    <input type="text" name="email_interne" class="form-control" placeholder="Email interne" required>
                 </div>
                 <div id="email" class="col-md-12">
                     <strong>Email externe :</strong>
@@ -61,7 +61,7 @@
                 </div>
                 <div id="user" class="col-md-12">
                     <strong>Responsable :</strong>
-                    <select id="responsable" name="users[]" class="form-control">
+                    <select id="responsable" name="users[]" class="form-control" required>
                         <option hidden disabled selected value> -- Choisir une option -- </option>
                         @foreach($users as $user)
                             <option value="{{ $user->id }}">{{ $user->name }}</option>

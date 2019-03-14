@@ -1,27 +1,29 @@
 @extends('layouts.app')
 @section('content')
     <h3><b>Liste des absences</b></h3>
-    <table class="table table-hover table-sm">
+    <div class="table-responsive-md">
+    <table class="table table-hover">
         @if(empty($absences->count()))
             <p>Cet élève n'a jamais été absent.</p>
         @else
 
             <tr>
-                <th><b>Absence reportée par</b></th>
-                <th><b>Cause</b></th>
-                <th><b>Date de début</b></th>
-                <th><b>Date de fin</b></th>
+                <th scope="col"><b>Absence reportée par</b></th>
+                <th scope="col"><b>Cause</b></th>
+                <th scope="col"><b>Date de début</b></th>
+                <th scope="col"><b>Date de fin</b></th>
             </tr>
             @foreach($absences as $absence)
                 <tr>
-                    <td><b>{{$absence->name}}</b></td>
-                    <td><b>{{$absence->raison}}</b></td>
-                    <td><b>{{$absence->date_in}}</b></td>
-                    <td><b>{{$absence->date_out}}</b></td>
+                    <td>{{$absence->name}}</td>
+                    <td>{{$absence->raison}}</td>
+                    <td>{{$absence->date_in}}</td>
+                    <td>{{$absence->date_out}}</td>
                 </tr>
             @endforeach
             @endif
         </table>
+    </div>
     <form action="{{ route('absences_eleve', $eleve->id) }}" method="post">
         @csrf
         <input type="date" name="date_in" value="<?php echo date('Y-m-d')?>">

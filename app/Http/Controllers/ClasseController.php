@@ -43,7 +43,17 @@ class ClasseController extends Controller
     {
         $request->validate([
             'volee' => 'required',
-            'code' => 'required',
+            'luam' => 'nullable',
+            'lupm' => 'nullable',
+            'maam' => 'nullable',
+            'mapm' => 'nullable',
+            'meam' => 'nullable',
+            'mepm' => 'nullable',
+            'jeam' => 'nullable',
+            'jepm' => 'nullable',
+            'veam' => 'nullable',
+            'vepm' => 'nullable',
+            'code' => 'required|max:4',
         ]);
 
         $classe = new Classe;
@@ -106,7 +116,17 @@ class ClasseController extends Controller
     {
         $request->validate([
             'volee' => 'required',
-            'code' => 'required',
+            'luam' => 'nullable',
+            'lupm' => 'nullable',
+            'maam' => 'nullable',
+            'mapm' => 'nullable',
+            'meam' => 'nullable',
+            'mepm' => 'nullable',
+            'jeam' => 'nullable',
+            'jepm' => 'nullable',
+            'veam' => 'nullable',
+            'vepm' => 'nullable',
+            'code' => 'required|max:4',
         ]);
 
         $classe = Classe::find($id);

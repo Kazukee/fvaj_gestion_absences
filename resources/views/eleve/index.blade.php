@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-10">
                 <h3><b>Liste des élèves</b></h3>
@@ -15,42 +15,43 @@
                 <p>{{$message}}</p>
             </div>
         @endif
-
-        <table class="table table-hover table-sm">
-            <tr>
-                <th><b>Classe</b></th>
-                <th><b>Titre</b></th>
-                <th><b>Nom</b></th>
-                <th><b>Prénom</b></th>
-                <th><b>Téléphone</b></th>
-                <th><b>Adresse</b></th>
-                <th><b>Email interne</b></th>
-                <th><b>Email externe</b></th>
-                <th width="220"><b>Action</b></th>
-            </tr>
-
-            @foreach($eleves as $eleve)
+        <div class="table-responsive-md">
+            <table class="table table-hover table-sm">
                 <tr>
-                    <td><b>{{$eleve->classe->code}}</b></td>
-                    <td><b>{{$eleve->titre}}</b></td>
-                    <td><b>{{$eleve->nom}}</b></td>
-                    <td><b>{{$eleve->prenom}}</b></td>
-                    <td><b>{{$eleve->telephone}}</b></td>
-                    <td><b>{{$eleve->adresse}}</b></td>
-                    <td><b>{{$eleve->email_interne}}</b></td>
-                    <td><b>{{$eleve->email_externe}}</b></td>
-                    <td>
-                        <form action="{{ route('eleve.destroy', $eleve->id) }}" method="post">
-                            <a class="btn btn-sm btn-success" href="{{ route('eleve.show', $eleve->id) }}">Voir</a>
-                            <a class="btn btn-sm btn-warning" href="{{ route('eleve.edit', $eleve->id) }}">Modifier</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
-                        </form>
-                    </td>
+                    <th scope="col"><b>Classe</b></th>
+                    <th scope="col"><b>Titre</b></th>
+                    <th scope="col"><b>Nom</b></th>
+                    <th scope="col"><b>Prénom</b></th>
+                    <th scope="col"><b>Téléphone</b></th>
+                    <th scope="col"><b>Adresse</b></th>
+                    <th scope="col"><b>Email interne</b></th>
+                    <th scope="col"><b>Email externe</b></th>
+                    <th scope="col"><b>Action</b></th>
                 </tr>
-            @endforeach
-        </table>
+
+                @foreach($eleves as $eleve)
+                    <tr>
+                        <td><b>{{$eleve->classe->code}}</b></td>
+                        <td><b>{{$eleve->titre}}</b></td>
+                        <td><b>{{$eleve->nom}}</b></td>
+                        <td><b>{{$eleve->prenom}}</b></td>
+                        <td><b>{{$eleve->telephone}}</b></td>
+                        <td><b>{{$eleve->adresse}}</b></td>
+                        <td><b>{{$eleve->email_interne}}</b></td>
+                        <td><b>{{$eleve->email_externe}}</b></td>
+                        <td style="white-space: nowrap;" align="center">
+                            <form action="{{ route('eleve.destroy', $eleve->id) }}" method="post">
+                                <a class="btn btn-sm btn-success" href="{{ route('eleve.show', $eleve->id) }}">Voir</a>
+                                <a class="btn btn-sm btn-warning" href="{{ route('eleve.edit', $eleve->id) }}">Modifier</a>
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
         {!! $eleves->links() !!}
     </div>
 @endsection

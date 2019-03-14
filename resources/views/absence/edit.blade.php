@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <strong>Eleve :</strong>
-                    <select name="eleve" class="form-control">
+                    <select name="eleve" class="form-control" required>
                         @foreach($eleves as $eleve)
                             <option value="{{ $eleve->id }}" @if ($eleve->id == $absence->eleve_id) selected="selected" @endif>{{ $eleve->nom }} {{ $eleve->prenom }}</option>
                         @endforeach
@@ -32,11 +32,11 @@
                 </div>
                 <div class="col-md-12">
                     <strong>Date de début :</strong>
-                    <input type="date" name="date_in" value="{{ $absence->date_in }}">
+                    <input type="date" name="date_in" value="{{ $absence->date_in }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Date de fin :</strong>
-                    <input type="date" name="date_out" value="{{ $absence->date_out }}">
+                    <input type="date" name="date_out" value="{{ $absence->date_out }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Heure de début :</strong>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="col-md-12">
                     <strong>Raison :</strong>
-                    <select name="raison" class="form-control">
+                    <select name="raison" class="form-control" required>
                         <option value="Maladie" @if ($absence->raison == 'Maladie') selected="selected" @endif>Maladie</option>
                         <option value="Absence" @if ($absence->raison == 'Absence') selected="selected" @endif>Absence</option>
                         <option value="Stage interne" @if ($absence->raison == 'Stage interne') selected="selected" @endif>Stage interne</option>

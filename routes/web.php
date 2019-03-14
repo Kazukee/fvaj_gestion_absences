@@ -12,6 +12,7 @@
 */
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
@@ -20,6 +21,9 @@ Route::get('/', function () {
         ->join('eleve_utilisateur', 'eleves.id', '=', 'eleve_utilisateur.eleve_id')
         ->join('users', 'eleve_utilisateur.user_id', '=', 'users.id')
         ->where('users.id', '=', Auth::id())->get();
+
+    $role = DB::table('users')->select('role')
+                ->where('id', '=', Auth::id())->get();
 
     return view('welcome', compact('eleves'));
 })->name('accueil');

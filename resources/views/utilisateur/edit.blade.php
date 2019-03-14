@@ -32,15 +32,22 @@
                     </select>
                 </div>
                 <div class="col-md-12">
+                    <strong>Rôle :</strong>
+                    <select name="role" class="form-control" required>
+                        <option value="Administrateur" @if ($user->role == 'Administrateur') selected="selected" @endif>Administrateur</option>
+                        <option value="Responsable" @if ($user->role == 'Responsable') selected="selected" @endif>Responsable</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
                     <strong>Titre :</strong>
-                    <select name="titre" class="form-control">
+                    <select name="titre" class="form-control" required>
                         <option value="Madame" @if ($user->titre == 'Madame') selected="selected" @endif>Madame</option>
                         <option value="Monsieur" @if ($user->titre == 'Monsieur') selected="selected" @endif>Monsieur</option>
                     </select>
                 </div>
                 <div class="col-md-12">
                     <strong>Nom - Prénom :</strong>
-                    <input type="text" name="nom" class="form-control" value="{{ $user->name }}">
+                    <input type="text" name="nom" class="form-control" value="{{ $user->name }}" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Téléphone :</strong>
@@ -56,7 +63,7 @@
                 </div>
                 <div class="col-md-12">
                     <strong>Email :</strong>
-                    <input type="text" name="email" class="form-control" value="{{ $user->email }}">
+                    <input type="text" name="email" class="form-control" value="{{ $user->email }}" required>
                 </div>
                 <div class="col-md-12">
                     <a href="{{ route('utilisateur.index') }}" class="btn btn-sm btn-success">Retour</a>

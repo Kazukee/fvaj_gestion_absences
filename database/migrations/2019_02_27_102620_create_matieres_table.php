@@ -19,11 +19,11 @@ class CreateMatieresTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->increments('id')->unique();
-            $table->unsignedInteger('utilisateur_id');
+            $table->unsignedInteger('user_id');
             $table->string('label', 45)->unique();
             $table->timestamps();
 
-            $table->foreign('utilisateur_id')->references('id')->on('utilisateurs');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

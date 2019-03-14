@@ -23,15 +23,15 @@
             <div class="row">
                 <div class="col-md-12">
                     <strong>Nom :</strong>
-                    <input type="text" name="nom" class="form-control" placeholder="Nom">
+                    <input type="text" name="nom" class="form-control" placeholder="Nom" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Adresse :</strong>
-                    <input type="text" name="adresse" class="form-control" placeholder="Adresse, NPA Localité">
+                    <input type="text" name="adresse" class="form-control" placeholder="Adresse, NPA Localité" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Téléphone :</strong>
-                    <input type="text" name="telephone" class="form-control" placeholder="Téléphone">
+                    <input type="text" name="telephone" class="form-control" placeholder="Téléphone" required>
                 </div>
                 <div class="col-md-12">
                     <strong>Email :</strong>
