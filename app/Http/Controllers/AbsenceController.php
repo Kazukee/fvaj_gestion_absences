@@ -145,27 +145,6 @@ class AbsenceController extends Controller
             ->with('success', 'L\'absence a été supprimée avec succès !');
     }
 
-    public function chooseDates(Request $request, $id)
-    {
-        $request->validate([
-            'date_in' => 'required',
-            'date_out' => 'required',
-        ]);
-
-        $eleve = Eleve::find($id);
-
-        $absences = DB::table('absences')->select(DB::raw("CONCAT(utilisateurs.nom, ' ', utilisateurs.prenom) AS responsable"), 'raison',
-            DB::raw("DATE_FORMAT(absences.date_in, '%d.%m.%Y') AS date_in"), DB::raw("DATE_FORMAT(absences.date_out, '%d.%m.%Y') AS date_out"))
-            ->join('eleves', 'eleves.id', '=', 'absences.eleve_id')
-            ->join('eleve_utilisateur', 'eleve_utilisateur.id', '=', 'absences.eleve_utilisateur_id')
-            ->join('utilisateurs', 'utilisateurs.id', '=', 'eleve_utilisateur.utilisateur_id')
-            ->whereDate('date_in', '=', '2019-03-01')
-            ->whereDate('date_out', '=', '2019-03-01')
-            ->where('eleves.id', '=', $eleve)->get();
-
-        return redirect()->route('dates_absences', compact($absences));
-    }
-
     public function getAbsences(Request $request, $id)
     {
         $eleve = Eleve::find($id);

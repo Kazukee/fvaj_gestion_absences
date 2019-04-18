@@ -15,16 +15,16 @@
                             <label for="institution" class="col-md-4 col-form-label text-md-right">{{ __('Institution') }}</label>
 
                             <div class="col-md-6">
-                                <select name="institution" class="form-control{{ $errors->has('institution') ? ' is-invalid' : '' }}" name="institution" value="{{ old('institution') }}" required autofocus>
+                                <select id="institution" class="form-control{{ $errors->has('institution') ? ' is-invalid' : '' }}" name="institution" value="{{ old('institution') }}" required autofocus>
                                     <option hidden disabled selected value> -- Choisir une option -- </option>
                                     @foreach($institutions as $institution)
                                         <option value="{{ $institution->id }}">{{ $institution->nom }}</option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('titre'))
+                                @if ($errors->has('institution'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('titre') }}</strong>
+                                        <strong>{{ $errors->first('institution') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -107,10 +107,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="date_de_naissace" class="col-md-4 col-form-label text-md-right">{{ __('Date de naissance') }}</label>
+                            <label for="date_de_naissance" class="col-md-4 col-form-label text-md-right">{{ __('Date de naissance') }}</label>
 
                             <div class="col-md-6">
-                                <input id="date_de_naissace" type="date" class="form-control{{ $errors->has('date_de_naissance') ? ' is-invalid' : '' }}" name="date_de_naissance" value="{{ old('date_de_naissance') }}" required autofocus>
+                                <input id="date_de_naissance" type="date" class="form-control{{ $errors->has('date_de_naissance') ? ' is-invalid' : '' }}" name="date_de_naissance" value="{{ old('date_de_naissance') }}" required autofocus>
 
                                 @if ($errors->has('date_de_naissance'))
                                     <span class="invalid-feedback" role="alert">

@@ -50,7 +50,8 @@
                     <select name="raison" class="form-control" required>
                         <option hidden disabled selected value> -- Choisir une option -- </option>
                         <option value="Maladie">Maladie</option>
-                        <option value="Absence">Absence</option>
+                        <option value="Absence justifiée">Absence justifiée</option>
+                        <option value="Absence injustifiée">Absence injustifiée</option>
                         <option value="Stage interne">Stage interne</option>
                         <option value="Stage externe">Stage externe</option>
                         <option value="Accident">Accident</option>

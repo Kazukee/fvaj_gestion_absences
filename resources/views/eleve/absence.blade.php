@@ -17,8 +17,8 @@
                 <tr>
                     <td>{{$absence->name}}</td>
                     <td>{{$absence->raison}}</td>
-                    <td>{{$absence->date_in}}</td>
-                    <td>{{$absence->date_out}}</td>
+                    <td>{{date_format(new DateTime($absence->date_in), 'd.m.Y')}}</td>
+                    <td>{{date_format(new DateTime($absence->date_out), 'd.m.Y')}}</td>
                 </tr>
             @endforeach
             @endif

@@ -30,8 +30,8 @@
                 @foreach($absences as $absence)
                     <tr>
                         <td><b>{{$absence->eleve->nom}} {{$absence->eleve->prenom }}</b></td>
-                        <td><b>{{$absence->date_in}}</b></td>
-                        <td><b>{{$absence->date_out}}</b></td>
+                        <td><b>{{date_format(new DateTime($absence->date_in), 'd.m.Y')}}</b></td>
+                        <td><b>{{date_format(new DateTime($absence->date_out), 'd.m.Y')}}</b></td>
                         <td><b>{{$absence->time_in}}</b></td>
                         <td><b>{{$absence->time_out}}</b></td>
                         <td><b>{{$absence->raison}}</b></td>

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Notification;
 use App\ {
     Events\AbsenceCreated as AbsenceCreatedEvent,
     Notifications\AbsenceCreated as SendNotificationAbsenceCreated,
-    Utilisateur
+    User
 };
 
 
@@ -37,7 +37,7 @@ class AbsenceCreated
                             ->where('eleve_utilisateur.eleve_id', '=', $event->absence->eleve_id)->get();
 
         foreach ($utilisateurs as $utilisateur) {
-            Notification::send(Utilisateur::where('email', $utilisateur->email)->get(), new SendNotificationAbsenceCreated($event->absence));
+            Notification::send(User::where('email', $utilisateur->email)->get(), new SendNotificationAbsenceCreated($event->absence));
         }
     }
 }
