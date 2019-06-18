@@ -17,7 +17,7 @@ class AbsenceController extends Controller
      */
     public function index()
     {
-        $absences = Absence::orderBy('date_in')->paginate(20);
+        $absences = Absence::all();
 
         return view('absence.index', compact('absences', 'eleves'));
     }

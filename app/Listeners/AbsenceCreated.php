@@ -11,7 +11,6 @@ use App\ {
     User
 };
 
-
 class AbsenceCreated
 {
     /**

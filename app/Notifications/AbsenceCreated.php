@@ -3,16 +3,15 @@
 namespace App\Notifications;
 
 use App\Absence;
-use Barryvdh\DomPDF\PDF;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Notifications\Messages\NexmoMessage;
 
 class AbsenceCreated extends Notification
 {
     protected $absence;
-    protected $nom;
 
     /**
      * Create a new notification instance.
@@ -22,10 +21,6 @@ class AbsenceCreated extends Notification
     public function __construct(Absence $absence)
     {
         $this->absence = $absence;
-
-        //dd($absence = DB::table('absences')->orderBy('id', 'desc')->first());
-
-
     }
 
     /**
@@ -36,7 +31,7 @@ class AbsenceCreated extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'nexmo'];
     }
 
     /**
@@ -102,6 +97,34 @@ class AbsenceCreated extends Notification
                 ->line('Vous trouverez ci-joint l\'avis d\'absence correspondant à celle-ci.')
                 ->salutation('Merci d\'en prendre bonne note et meilleures salutations !')
                 ->attachData($pdf->output(), 'AA - '. $eleve->nom . ' ' . $eleve->prenom . ' - ' . date_format(new DateTime($eleve->date_in), 'd.m.Y') . '.pdf', ['mime' => 'application/pdf']);
+        }
+    }
+
+    public function toNexmo($notifiable) {
+        /*return (new NexmoMessage)
+            ->from('Nexmo')
+            ->content('Les SMS avec Nexmo fonctionnent !');*/
+
+        $msg = DB::table('absences')->select('eleves.titre AS titre', 'eleves.nom AS nom', 'eleves.prenom AS prenom', 'absences.raison AS raison',
+            'absences.date_in AS date_in', 'absences.date_out AS date_out', 'absences.time_in AS time_in', 'absences.time_out AS time_out')
+            ->join('eleves', 'absences.eleve_id', '=', 'eleves.id')->orderBy('absences.id', 'desc')->first();
+
+        if($msg->date_in == $msg->date_out && empty($msg->time_in) && empty($msg->time_out)) {
+            return (new NexmoMessage)
+                ->from('Nexmo')
+                ->content('Bonjour, une absence a été signalée pour ' . $msg->titre . ' ' . $msg->prenom . ' ' . $msg->nom . '.');
+        }
+
+        if(empty($msg->time_in) && empty($msg->time_out)) {
+            return (new NexmoMessage)
+                ->from('Nexmo')
+                ->content('Bonjour, une absence a été signalée pour ' . $msg->titre . ' ' . $msg->prenom . ' ' . $msg->nom . '.');
+        }
+
+        if($msg->date_in == $msg->date_out && !empty($msg->time_in) && !empty($msg->time_out)) {
+                return (new NexmoMessage)
+                    ->from('Nexmo')
+                    ->content('Bonjour, une absence a été signalée pour ' . $msg->titre . ' ' . $msg->prenom . ' ' . $msg->nom . '.');
         }
     }
 

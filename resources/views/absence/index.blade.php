@@ -1,5 +1,17 @@
 @extends('layouts.app')
 @section('content')
+
+    <head>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+        <!-- Bootstrap core CSS -->
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="{{ asset('css/mdb.min.css') }}" rel="stylesheet">
+        <!-- MDBootstrap Datatables  -->
+        <link href="{{ asset('css/addons/datatables.min.css') }}" rel="stylesheet">
+    </head>
+    <body>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-10">
@@ -16,16 +28,18 @@
             </div>
         @endif
         <div class="table-responsive-sm">
-            <table class="table table-hover">
-                <tr>
-                    <th scope="col"><b>Eleve</b></th>
-                    <th scope="col"><b>Date de début</b></th>
-                    <th scope="col"><b>Date de fin</b></th>
-                    <th scope="col"><b>Heure de début</b></th>
-                    <th scope="col"><b>Heure de fin</b></th>
-                    <th scope="col"><b>Raison</b></th>
-                    <th scope="col"><b>Action</b></th>
-                </tr>
+            <table id="dataAbsence" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"><b>Eleve</b></th>
+                        <th scope="col"><b>Date de début</b></th>
+                        <th scope="col"><b>Date de fin</b></th>
+                        <th scope="col"><b>Heure de début</b></th>
+                        <th scope="col"><b>Heure de fin</b></th>
+                        <th scope="col"><b>Raison</b></th>
+                        <th scope="col"><b>Action</b></th>
+                    </tr>
+                </thead>
 
                 @foreach($absences as $absence)
                     <tr>
@@ -48,6 +62,30 @@
                 @endforeach
             </table>
         </div>
-        {!! $absences->links() !!}
     </div>
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="{{ asset('js/mdb.min.js') }}"></script>
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="{{ asset('js/addons/datatables.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#dataAbsence').DataTable({
+                columnDefs: [{
+                    orderable: false,
+                    targets: [3, 4, 5, 6]
+                }]
+            });
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+    </body>
 @endsection

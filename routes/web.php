@@ -53,3 +53,7 @@ Route::any('eleve/{id}/absences/', 'AbsenceController@getAbsences', function($id
 /* Autocomplete users */
 Route::get('search', 'SearchController@index')->name('search');
 Route::get('autocomplete', 'SearchController@searchUsers')->name('autocompleteUsers');
+
+Route::get('/planning', function() {
+    return view('calendrier');
+});

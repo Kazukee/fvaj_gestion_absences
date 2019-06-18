@@ -56,4 +56,8 @@ class User extends Authenticatable
     public function routeNotificationForMail($notification) {
         return $this->email;
     }
+
+    public function routeNotificationForNexmo($notification) {
+        return $this->telephone;
+    }
 }
