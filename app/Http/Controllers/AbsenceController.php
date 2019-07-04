@@ -19,7 +19,7 @@ class AbsenceController extends Controller
     {
         $absences = Absence::all();
 
-        return view('absence.index', compact('absences', 'eleves'));
+        return view('absence.index', compact('absences'));
     }
 
     /**
@@ -81,7 +81,7 @@ class AbsenceController extends Controller
     {
         $absence = Absence::find($id);
 
-        return view('absence.detail', compact('absence', 'eleve'));
+        return view('absence.detail', compact('absence'));
     }
 
     /**
@@ -165,7 +165,7 @@ class AbsenceController extends Controller
                                 ['absences.date_in', '>=', $request->get('date_in')],
                                 ['absences.date_out', '<=', $request->get('date_out')]
                             ])->orWhere([
-                                 ['eleves.id', '=', $eleve->id],
+                                ['eleves.id', '=', $eleve->id],
                                 ['absences.date_in', '<', $request->get('date_in')],
                                 ['absences.date_out', '>=', $request->get('date_in')]
                             ])->orWhere([
@@ -179,6 +179,6 @@ class AbsenceController extends Controller
                             ])->get();
         }
 
-        return view('eleve.absence', compact('eleve', 'absences', 'date'));
+        return view('eleve.absence', compact('eleve', 'absences'));
     }
 }

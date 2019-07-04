@@ -31,7 +31,7 @@ class AbsenceCreated extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'nexmo'];
+        return ['mail'];
     }
 
     /**
@@ -101,9 +101,6 @@ class AbsenceCreated extends Notification
     }
 
     public function toNexmo($notifiable) {
-        /*return (new NexmoMessage)
-            ->from('Nexmo')
-            ->content('Les SMS avec Nexmo fonctionnent !');*/
 
         $msg = DB::table('absences')->select('eleves.titre AS titre', 'eleves.nom AS nom', 'eleves.prenom AS prenom', 'absences.raison AS raison',
             'absences.date_in AS date_in', 'absences.date_out AS date_out', 'absences.time_in AS time_in', 'absences.time_out AS time_out')

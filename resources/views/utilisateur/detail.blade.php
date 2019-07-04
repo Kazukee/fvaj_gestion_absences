@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Institution :</strong> {{ $user->institution->nom }}
+                    <strong>Institution :</strong> {{ date_format($user->institution->nom, "d.m.Y") }}
                 </div>
             </div>
             <div class="col-md-12">

@@ -136,13 +136,13 @@
   border-left:none;padding:0cm 3.5pt 0cm 3.5pt;height:70.0pt'>
                 <p class=MsoNormal align=left style='margin-top:6.0pt;margin-right:2.85pt;
   margin-bottom:0cm;margin-left:0cm;margin-bottom:.0001pt;text-align:left;
-  line-height:133%'>{{ $titre }} {{ $nom }} {{ $prenom }}</p>
+  line-height:133%'>{{ $titre_eleve[0]->titre }} {{ $nom_eleve[0]->nom }} {{ $prenom_eleve[0]->prenom }}</p>
                 <p class=MsoNormal align=left style='margin-top:6.0pt;margin-right:2.85pt;
   margin-bottom:0cm;margin-left:0cm;margin-bottom:.0001pt;text-align:left;
-  line-height:133%'>{{ $adresse }}</p>
+  line-height:133%'>{{ $adresse_eleve[0]->adresse }}</p>
                 <p class=MsoNormal align=left style='margin-top:6.0pt;margin-right:2.85pt;
   margin-bottom:0cm;margin-left:0cm;margin-bottom:.0001pt;text-align:left;
-  line-height:133%'>{{ $localite }}</p>
+  line-height:133%'>{{ $localite_eleve[0]->localite }}</p>
                 <p class=MsoNormal align=left style='margin-top:6.0pt;margin-right:2.85pt;
   margin-bottom:0cm;margin-left:0cm;margin-bottom:.0001pt;text-align:left;
   line-height:133%'></p>
@@ -160,20 +160,20 @@
             <td width=300 valign=bottom style='width:225.3pt;border:none;border-bottom:
   solid black 1.0pt;padding:0cm 0cm 0cm 0cm;height:20.0pt'>
                 <p class=MsoNormal style='margin-top:0cm;margin-right:2.85pt;margin-bottom:
-  0cm;margin-left:2.85pt;margin-bottom:.0001pt'><b>Nom, prénom</b>: {{ $nom }} {{ $prenom }}</p>
+  0cm;margin-left:2.85pt;margin-bottom:.0001pt'><b>Nom, prénom</b>: {{ $nom_eleve[0]->nom }} {{ $prenom_eleve[0]->prenom }}</p>
             </td>
             <td width=390 valign=bottom style='width:292.7pt;border:none;border-bottom:
   solid black 1.0pt;padding:0cm 0cm 0cm 0cm;height:20.0pt'>
                 <p class=MsoNormal style='margin-top:0cm;margin-right:2.85pt;margin-bottom:
   0cm;margin-left:2.85pt;margin-bottom:.0001pt'><span style='font-size:12.0pt;
-  font-family:"Open Sans"'></span><b>Classe</b>: {{ $classe }}</p>
+  font-family:"Open Sans"'></span><b>Classe</b>: {{ $classe_eleve[0]->code }}</p>
             </td>
         </tr>
     </table>
 
     <p class=MsoNormal>&nbsp;</p>
 
-    @if($classe == 'Cl1' || $classe == 'Cl2' || $classe == 'Cl3' || $classe == 'Cl4' || $classe == 'Cl5A' || $classe == 'Cl5B' || $classe == 'Cl6A' || $classe == 'Cl6B' || $classe == 'Cl7')
+    @if($classe_eleve[0]->code == 'Cl1' || $classe_eleve[0]->code == 'Cl2' || $classe_eleve[0]->code == 'Cl3' || $classe_eleve[0]->code == 'Cl4' || $classe_eleve[0]->code == 'Cl5A' || $classe_eleve[0]->code == 'Cl5B' || $classe_eleve[0]->code == 'Cl6A' || $classe_eleve[0]->code == 'Cl6B' || $classe_eleve[0]->code == 'Cl7')
         <div>
             <input type="checkbox" id="PAA" name="PAA" checked><label for="PAA">ne s’est pas présenté/e aux cours du Programme Action Apprentissage du&nbsp;:</label>
         </div>
@@ -183,7 +183,7 @@
         </div>
     @endif
 
-    @if($classe == 'ADB1' || $classe == 'ADB2' || $classe == 'EC1' || $classe == 'EC2' || $classe == 'EC3' || $classe == 'INF3' || $classe == 'MED1' || $classe == 'MED2')
+    @if($classe_eleve[0]->code == 'ADB1' || $classe_eleve[0]->code == 'ADB2' || $classe_eleve[0]->code == 'EC1' || $classe_eleve[0]->code == 'EC2' || $classe_eleve[0]->code == 'EC3' || $classe_eleve[0]->code == 'INF3' || $classe_eleve[0]->code == 'MED1' || $classe_eleve[0]->code == 'MED2')
         <div>
             <input type="checkbox" id="ECLAT" name="ECLAT" checked><label for="ECLAT">ne s’est pas présenté/e aux cours ECLAT du&nbsp;:</label>
         </div>
@@ -198,13 +198,13 @@
 
     <p class=MsoNormal style='margin-right:-.1pt'>&nbsp;</p>
 
-    <p align="center"><?php setlocale (LC_TIME, 'fr_FR'); echo strftime('%A, le %d %B %Y', strtotime($date_in))?></p>
+    <p align="center"><?php setlocale (LC_TIME, 'fr_FR'); echo strftime('%A, le %d %B %Y', strtotime($date))?></p>
 
     <p class=MsoNormal style='margin-right:-.1pt'>&nbsp;</p>
 
     <p class=MsoNormal style='margin-right:-.1pt; text-align: center;'>REMARQUES DE LA FONDATION :</p>
 
-    <p class=MsoNormal style='margin-right:-.1pt; text-align: center;'><span style='font-family:"Open Sans"'>{{ $prenom }} {{ $nom }} ne s'est pas présenté@if($titre == 'Madame')e@else @endif à la Fondation @if(stripos($raison, 'injustifié'))et n'a pas prévenu de son absence
+    <p class=MsoNormal style='margin-right:-.1pt; text-align: center;'><span style='font-family:"Open Sans"'>{{ $prenom_eleve[0]->prenom }} {{ $nom_eleve[0]->nom }} ne s'est pas présenté@if($titre_eleve[0]->titre == 'Madame')e @endif à la Fondation @if(stripos($raison, 'injustifié'))et n'a pas prévenu de son absence
         ({{ $raison }}).@else mais a prévenu de son absence ({{ $raison }}).@endif </span></p>
 
     <p class=MsoNormal style='margin-right:-.1pt; text-align: center;'><span style='font-family:"Open Sans"'>…………………………………………………………………………………………………………………</span></p>

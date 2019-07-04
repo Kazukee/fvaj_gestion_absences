@@ -8,13 +8,15 @@
 
 namespace App;
 
+
+
 class Calendrier {
 
     /**
      * Constructor
      */
     public function __construct(){
-        $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
+        $this->naviHref = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     }
 
     /********************* PROPRIETES ********************/
@@ -136,14 +138,60 @@ class Calendrier {
      * create navigation
      */
     private function _createNavi(){
+        switch ($this->currentMonth) {
+            case "January" :
+                $this->currentMonth = 1;
+                break;
+            case "February" :
+                $this->currentMonth = 2;
+                break;
+            case "March" :
+                $this->currentMonth = 3;
+                break;
+            case "April" :
+                $this->currentMonth = 4;
+                break;
+            case "May" :
+                $this->currentMonth = 5;
+                break;
+            case "June" :
+                $this->currentMonth = 6;
+                break;
+            case "July" :
+                $this->currentMonth = 7;
+                break;
+            case "August" :
+                $this->currentMonth = 8;
+                break;
+            case "September" :
+                $this->currentMonth = 9;
+                break;
+            case "October" :
+                $this->currentMonth = 10;
+                break;
+            case "November" :
+                $this->currentMonth = 11;
+                break;
+            case "December" :
+                $this->currentMonth = 12;
+                break;
+        }
 
-        $nextMonth = $this->currentMonth==12?1:intval($this->currentMonth)+1;
+        if ($this->currentMonth == 12) {
+            $nextYear = intval($this->currentYear) + 1;
+            $nextMonth = 1;
+        } else {
+            $nextYear = $this->currentYear;
+            $nextMonth = $this->currentMonth + 1;
+        }
 
-        $nextYear = $this->currentMonth==12?intval($this->currentYear)+1:$this->currentYear;
-
-        $preMonth = $this->currentMonth==1?12:intval($this->currentMonth)-1;
-
-        $preYear = $this->currentMonth==1?intval($this->currentYear)-1:$this->currentYear;
+        if ($this->currentMonth == 1) {
+            $preYear = intval($this->currentYear) - 1;
+            $preMonth = 12;
+        } else {
+            $preYear = $this->currentYear;
+            $preMonth = $this->currentMonth - 1;
+        }
 
         return
             '<div class="header">'.

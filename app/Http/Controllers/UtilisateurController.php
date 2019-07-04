@@ -17,7 +17,7 @@ class UtilisateurController extends Controller
     {
         $users = User::orderBy('name')->paginate(20);
 
-        return view('utilisateur.index', compact('users', 'institutions'));
+        return view('utilisateur.index', compact('users'));
     }
 
     /**

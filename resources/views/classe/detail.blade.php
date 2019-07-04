@@ -15,57 +15,57 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Code :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->code }}@endif
+                    <strong>Code :</strong> @if (empty($classe->code)) @else{{ $classe->code }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Lundi matin :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_luam->label }}@endif
+                    <strong>Lundi matin :</strong> @if (empty($classe->matiere_luam)) Pas de cours @else{{ $classe->matiere_luam->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Lundi après-midi :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_lupm->label }}@endif
+                    <strong>Lundi après-midi :</strong> @if (empty($classe->matiere_lupm)) Pas de cours @else{{ $classe->matiere_lupm->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Mardi matin :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_maam->label }}@endif
+                    <strong>Mardi matin :</strong> @if (empty($classe->matiere_maam)) Pas de cours @else{{ $classe->matiere_maam->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Mardi après-midi :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_mapm->label }}@endif
+                    <strong>Mardi après-midi :</strong> @if (empty($classe->matiere_mapm)) Pas de cours @else{{ $classe->matiere_mapm->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Mercredi matin :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_meam->label }}@endif
+                    <strong>Mercredi matin :</strong> @if (empty($classe->matiere_meam)) Pas de cours @else{{ $classe->matiere_meam->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Mercredi après-midi :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_mepm->label }}@endif
+                    <strong>Mercredi après-midi :</strong> @if (empty($classe->matiere_mepm)) Pas de cours @else{{ $classe->matiere_mepm->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Jeudi matin :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_jeam->label }}@endif
+                    <strong>Jeudi matin :</strong> @if (empty($classe->matiere_jeam)) Pas de cours @else{{ $classe->matiere_jeam->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Jeudi après-midi :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_jepm->label }}@endif
+                    <strong>Jeudi après-midi :</strong> @if (empty($classe->matiere_jepm)) Pas de cours @else{{ $classe->matiere_jepm->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Vendredi matin :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_veam->label }}@endif
+                    <strong>Vendredi matin :</strong> @if (empty($classe->matiere_veam)) Pas de cours @else{{ $classe->matiere_veam->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    <strong>Vendredi après-midi :</strong> @if (empty($classe->matiere_luam)) @else{{ $classe->matiere_vepm->label }}@endif
+                    <strong>Vendredi après-midi :</strong> @if (empty($classe->matiere_vepm)) Pas de cours @else{{ $classe->matiere_vepm->label }}@endif
                 </div>
             </div>
             <div class="col-md-12">

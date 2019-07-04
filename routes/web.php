@@ -50,6 +50,12 @@ Route::any('eleve/{id}/absences/', 'AbsenceController@getAbsences', function($id
    return view('eleve.absence', compact('eleve'));
 })->name('absences_eleve');
 
+Route::any('classe/{id}/presences', 'ClasseController@getPresence', function($id) {
+    $classe = App\Classe::find($id);
+
+    return view('presence.index', compact('classe'));
+})->name('presences_classe');
+
 /* Autocomplete users */
 Route::get('search', 'SearchController@index')->name('search');
 Route::get('autocomplete', 'SearchController@searchUsers')->name('autocompleteUsers');

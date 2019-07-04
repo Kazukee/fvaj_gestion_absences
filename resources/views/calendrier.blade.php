@@ -7,7 +7,9 @@
     </head>
     <body>
     <?php
-    $calendrier = new \App\Calendrier();
+    use App\Calendrier;
+
+    $calendrier = new Calendrier();
 
     echo $calendrier->show();
     ?>

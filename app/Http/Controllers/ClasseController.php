@@ -4,8 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Classe;
 use App\Matiere;
+use App\Notifications\AbsenceCreated;
+use App\Notifications\AttendanceCreated;
+use App\User;
 use App\Volee;
+use function GuzzleHttp\Promise\exception_for;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class ClasseController extends Controller
 {
@@ -17,7 +24,8 @@ class ClasseController extends Controller
     public function index()
     {
         $classes = Classe::orderBy('code')->paginate(20);
-        return view('classe.index', compact('classes', 'matieres', 'volees'));
+
+        return view('classe.index', compact('classes'));
     }
 
     /**
@@ -147,6 +155,66 @@ class ClasseController extends Controller
 
         return redirect()->route('classe.index')
             ->with('success', 'Modifications apportées avec succès.');
+    }
+
+    public function getPresence(Request $request, $id)
+    {
+        $classe = Classe::find($id);
+        $today = date('N');
+        $time = date('H');
+
+        $presences = DB::table('eleves')->select('eleves.id', 'eleves.nom', 'eleves.prenom', 'users.name', 'classes.code')
+                        ->join('classes', 'eleves.classe_id', '=', 'classes.id')
+                        ->join('eleve_utilisateur', 'eleves.id', '=', 'eleve_utilisateur.eleve_id')
+                        ->join('users', 'users.id', '=', 'eleve_utilisateur.user_id')
+                        ->where([
+                            ['users.role', '=', 'Référent'],
+                            ['classes.id', '=', $classe->id]
+                        ])->get();
+
+        $eleve_utilisateur = DB::table('eleve_utilisateur')->select('eleve_utilisateur.id')
+            ->join('users', 'eleve_utilisateur.user_id', '=', 'users.id')
+            ->where('users.id', '=', Auth::id())->get();
+
+        $users = DB::table('users')->select('users.name')
+            ->join('eleve_utilisateur', 'eleve_utilisateur.user_id', '=', 'users.id')
+            ->join('eleves', 'eleves.id', '=', 'eleve_utilisateur.eleve_id')
+            ->where('eleves.id', '=', $request->get('id'))->get();
+
+        if (!empty($request->except('_token'))) {
+            $array = $request->all();
+
+            for ($i = 0; $i < count(collect($request)->get('id')); $i++) {
+                if ($array['raison'][$i] != 'Présent') {
+                    DB::table('absences')->insert([
+                        'eleve_id' => $array['id'][$i],
+                        'eleve_utilisateur_id' => $eleve_utilisateur[0]->id,
+                        'date_in' => date('Y-m-d'),
+                        'date_out' => date('Y-m-d'),
+                        'raison' => $array['raison'][$i],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    $arr = [
+                        'classe_eleve' => DB::table('eleves')->select('classes.code')->join('classes', 'classes.id', '=', 'eleves.classe_id')->where('eleves.id', '=', $array['id'][$i])->get(),
+                        'titre_eleve' => DB::table('eleves')->select('eleves.titre')->where('id', '=', $array['id'][$i])->get(),
+                        'nom_eleve' => DB::table('eleves')->select('eleves.nom')->where('id', '=', $array['id'][$i])->get(),
+                        'prenom_eleve' => DB::table('eleves')->select('eleves.prenom')->where('id', '=', $array['id'][$i])->get(),
+                        'adresse_eleve' => DB::table('eleves')->select(DB::raw("SUBSTRING_INDEX(eleves.adresse, ',', 1) as 'adresse'"))->where('id', '=', $array['id'][$i])->get(),
+                        'localite_eleve' => DB::table('eleves')->select(DB::raw("TRIM(SUBSTRING_INDEX(eleves.adresse, ',', -1)) as 'localite'"))->where('id', '=', $array['id'][$i])->get(),
+                        'date' => date('Y-m-d'),
+                        'raison' => $array['raison'][$i],
+                    ];
+
+                    foreach ($users as $user) {
+                        Notification::send(User::where('name', $user->name)->get(), new AttendanceCreated($arr));
+                    }
+                }
+            }
+        }
+
+        return view('presence.index', compact('classe', 'time', 'today', 'presences'));
     }
 
     /**
