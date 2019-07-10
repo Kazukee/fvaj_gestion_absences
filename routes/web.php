@@ -50,16 +50,16 @@ Route::any('eleve/{id}/absences/', 'AbsenceController@getAbsences', function($id
    return view('eleve.absence', compact('eleve'));
 })->name('absences_eleve');
 
-Route::any('classe/{id}/presences', 'ClasseController@getPresence', function($id) {
-    $classe = App\Classe::find($id);
+Route::any('lieu/{id}/presences', 'ClasseController@getPresence', function($id) {
+    $lieu = App\Lieu::find($id);
 
-    return view('presence.index', compact('classe'));
+    return view('presence.index', compact('lieu'));
 })->name('presences_classe');
 
 /* Autocomplete users */
 Route::get('search', 'SearchController@index')->name('search');
 Route::get('autocomplete', 'SearchController@searchUsers')->name('autocompleteUsers');
 
-Route::get('/planning', function() {
-    return view('calendrier');
-});
+Route::view('/planning', 'calendrier');
+
+Route::view('/horaire', 'presence.horaire')->name('horaire_classe');

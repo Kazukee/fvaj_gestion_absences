@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classe;
+use App\Lieu;
 use App\Matiere;
 use App\Notifications\AbsenceCreated;
 use App\Notifications\AttendanceCreated;
@@ -159,27 +160,46 @@ class ClasseController extends Controller
 
     public function getPresence(Request $request, $id)
     {
-        $classe = Classe::find($id);
+        $lieu = Lieu::find($id);
+        $lieu_id = $lieu['id'];
         $today = date('N');
         $time = date('H');
 
+        DB::statement(DB::raw('SET @today = DAYOFWEEK(CURDATE()) - 1;'));
+        DB::statement(DB::raw('SET @time = HOUR(CURTIME());'));
+
         $presences = DB::table('eleves')->select('eleves.id', 'eleves.nom', 'eleves.prenom', 'users.name', 'classes.code')
-                        ->join('classes', 'eleves.classe_id', '=', 'classes.id')
-                        ->join('eleve_utilisateur', 'eleves.id', '=', 'eleve_utilisateur.eleve_id')
-                        ->join('users', 'users.id', '=', 'eleve_utilisateur.user_id')
-                        ->where([
-                            ['users.role', '=', 'Référent'],
-                            ['classes.id', '=', $classe->id]
-                        ])->get();
+            ->join('classes', 'eleves.classe_id', '=', 'classes.id')
+            ->join('eleve_utilisateur', 'eleves.id', '=', 'eleve_utilisateur.eleve_id')
+            ->join('users', 'users.id', '=', 'eleve_utilisateur.user_id')
+            ->whereRaw("((CASE
+                                    WHEN @today = 1 AND @time < 12 THEN eleves.fk_luam = '$lieu_id'
+                                    WHEN @today = 1 AND @time > 12 THEN eleves.fk_lupm = '$lieu_id'
+                                    WHEN @today = 2 AND @time < 12 THEN eleves.fk_maam = '$lieu_id'
+                                    WHEN @today = 2 AND @time > 12 THEN eleves.fk_mapm = '$lieu_id'
+                                    WHEN @today = 3 AND @time < 12 THEN eleves.fk_meam = '$lieu_id'
+                                    WHEN @today = 3 AND @time > 12 THEN eleves.fk_mepm = '$lieu_id'
+                                    WHEN @today = 4 AND @time < 12 THEN eleves.fk_jeam = '$lieu_id'
+                                    WHEN @today = 4 AND @time > 12 THEN eleves.fk_jepm = '$lieu_id'
+                                    WHEN @today = 5 AND @time < 12 THEN eleves.fk_veam = '$lieu_id'
+                                    WHEN @today = 5 AND @time > 12 THEN eleves.fk_vepm = '$lieu_id'
+                                END) AND users.role = 'Référent') 
+                            OR ((CASE
+                                    WHEN @today = 1 AND @time < 12 THEN eleves.fk_luam = '$lieu_id'
+                                    WHEN @today = 1 AND @time > 12 THEN eleves.fk_lupm = '$lieu_id'
+                                    WHEN @today = 2 AND @time < 12 THEN eleves.fk_maam = '$lieu_id'
+                                    WHEN @today = 2 AND @time > 12 THEN eleves.fk_mapm = '$lieu_id'
+                                    WHEN @today = 3 AND @time < 12 THEN eleves.fk_meam = '$lieu_id'
+                                    WHEN @today = 3 AND @time > 12 THEN eleves.fk_mepm = '$lieu_id'
+                                    WHEN @today = 4 AND @time < 12 THEN eleves.fk_jeam = '$lieu_id'
+                                    WHEN @today = 4 AND @time > 12 THEN eleves.fk_jepm = '$lieu_id'
+                                    WHEN @today = 5 AND @time < 12 THEN eleves.fk_veam = '$lieu_id'
+                                    WHEN @today = 5 AND @time > 12 THEN eleves.fk_vepm = '$lieu_id'
+                            END) AND users.name = 'Schwery Nicolas');")->get();
 
         $eleve_utilisateur = DB::table('eleve_utilisateur')->select('eleve_utilisateur.id')
             ->join('users', 'eleve_utilisateur.user_id', '=', 'users.id')
             ->where('users.id', '=', Auth::id())->get();
-
-        $users = DB::table('users')->select('users.name')
-            ->join('eleve_utilisateur', 'eleve_utilisateur.user_id', '=', 'users.id')
-            ->join('eleves', 'eleves.id', '=', 'eleve_utilisateur.eleve_id')
-            ->where('eleves.id', '=', $request->get('id'))->get();
 
         if (!empty($request->except('_token'))) {
             $array = $request->all();
@@ -207,6 +227,11 @@ class ClasseController extends Controller
                         'raison' => $array['raison'][$i],
                     ];
 
+                    $users = DB::table('users')->select('users.name')
+                        ->join('eleve_utilisateur', 'eleve_utilisateur.user_id', '=', 'users.id')
+                        ->join('eleves', 'eleves.id', '=', 'eleve_utilisateur.eleve_id')
+                        ->where('eleves.id', '=', $request->get('id')[$i])->get();
+
                     foreach ($users as $user) {
                         Notification::send(User::where('name', $user->name)->get(), new AttendanceCreated($arr));
                     }
@@ -214,7 +239,7 @@ class ClasseController extends Controller
             }
         }
 
-        return view('presence.index', compact('classe', 'time', 'today', 'presences'));
+        return view('presence.index', compact('lieu', 'time', 'today', 'presences'));
     }
 
     /**

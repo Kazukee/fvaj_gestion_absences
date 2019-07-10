@@ -173,7 +173,7 @@
 
     <p class=MsoNormal>&nbsp;</p>
 
-    @if($classe_eleve[0]->code == 'Cl1' || $classe_eleve[0]->code == 'Cl2' || $classe_eleve[0]->code == 'Cl3' || $classe_eleve[0]->code == 'Cl4' || $classe_eleve[0]->code == 'Cl5A' || $classe_eleve[0]->code == 'Cl5B' || $classe_eleve[0]->code == 'Cl6A' || $classe_eleve[0]->code == 'Cl6B' || $classe_eleve[0]->code == 'Cl7')
+    @if($classe_eleve[0]->code == 'Cl1' || $classe_eleve[0]->code == 'Cl2' || $classe_eleve[0]->code == 'Cl3' || $classe_eleve[0]->code == 'Cl4' || $classe_eleve[0]->code == 'Cl5A' || $classe_eleve[0]->code == 'Cl5B' || $classe_eleve[0]->code == 'Cl6A' || $classe_eleve[0]->code == 'Cl6B' || $classe_eleve[0]->code == 'Cl7' || $classe_eleve[0]->code == 'Cl8')
         <div>
             <input type="checkbox" id="PAA" name="PAA" checked><label for="PAA">ne s’est pas présenté/e aux cours du Programme Action Apprentissage du&nbsp;:</label>
         </div>

@@ -20,7 +20,7 @@
 <body>
     <h3><b>Liste des présences</b></h3>
     <div class="table-responsive-md">
-        <form action="{{ route('presences_classe', $classe->id) }}" method="post">
+        <form action="{{ route('presences_classe', $lieu->id) }}" method="post">
             <table id="dataPresence" class="table table-hover table-sm">
                 <thead>
                 <tr>
@@ -89,8 +89,10 @@
             $('#dataPresence').DataTable({
                 columnDefs: [{
                     orderable: false,
-                    targets: [0, 1, 2, 3, 4, 5, 6]
-                }]
+                    targets: [1, 2, 3, 4, 5, 6, 7,],
+                }],
+
+                "pageLength": 25,
             });
             $('.dataTables_length').addClass('bs-select');
         });

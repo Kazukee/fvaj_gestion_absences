@@ -50,7 +50,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('utilisateur.index') }}">Utilisateurs</a>
                         </li>
-
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('horaire_classe') }}">Listes de présences</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -58,7 +61,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Connexion') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Connexion') }}</a>php a
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
