@@ -60,7 +60,7 @@ class AbsenceCreated extends Notification
         ];
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('myPDF', $data);
+        $pdf->loadView('avis_dabsence', $data);
 
         $msg = DB::table('absences')->select('eleves.titre AS titre', 'eleves.nom AS nom', 'eleves.prenom AS prenom', 'absences.raison AS raison',
             'absences.date_in AS date_in', 'absences.date_out AS date_out', 'absences.time_in AS time_in', 'absences.time_out AS time_out')

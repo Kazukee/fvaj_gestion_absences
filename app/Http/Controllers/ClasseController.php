@@ -9,6 +9,7 @@ use App\Notifications\AbsenceCreated;
 use App\Notifications\AttendanceCreated;
 use App\User;
 use App\Volee;
+use Barryvdh\DomPDF\PDF;
 use function GuzzleHttp\Promise\exception_for;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -166,7 +167,7 @@ class ClasseController extends Controller
         $time = date('H');
 
         DB::statement(DB::raw('SET @today = DAYOFWEEK(CURDATE()) - 1;'));
-        DB::statement(DB::raw('SET @time = HOUR(CURTIME());'));
+        DB::statement(DB::raw('SET @time = 11;'));
 
         $presences = DB::table('eleves')->select('eleves.id', 'eleves.nom', 'eleves.prenom', 'users.name', 'classes.code')
             ->join('classes', 'eleves.classe_id', '=', 'classes.id')
@@ -174,28 +175,46 @@ class ClasseController extends Controller
             ->join('users', 'users.id', '=', 'eleve_utilisateur.user_id')
             ->whereRaw("((CASE
                                     WHEN @today = 1 AND @time < 12 THEN eleves.fk_luam = '$lieu_id'
-                                    WHEN @today = 1 AND @time > 12 THEN eleves.fk_lupm = '$lieu_id'
+                                    WHEN @today = 1 AND @time > 12 AND @time < 18 THEN eleves.fk_lupm = '$lieu_id'
                                     WHEN @today = 2 AND @time < 12 THEN eleves.fk_maam = '$lieu_id'
-                                    WHEN @today = 2 AND @time > 12 THEN eleves.fk_mapm = '$lieu_id'
+                                    WHEN @today = 2 AND @time > 12 AND @time < 18 THEN eleves.fk_mapm = '$lieu_id'
                                     WHEN @today = 3 AND @time < 12 THEN eleves.fk_meam = '$lieu_id'
-                                    WHEN @today = 3 AND @time > 12 THEN eleves.fk_mepm = '$lieu_id'
+                                    WHEN @today = 3 AND @time > 12 AND @time < 18 THEN eleves.fk_mepm = '$lieu_id'
                                     WHEN @today = 4 AND @time < 12 THEN eleves.fk_jeam = '$lieu_id'
-                                    WHEN @today = 4 AND @time > 12 THEN eleves.fk_jepm = '$lieu_id'
+                                    WHEN @today = 4 AND @time > 12 AND @time < 18 THEN eleves.fk_jepm = '$lieu_id'
                                     WHEN @today = 5 AND @time < 12 THEN eleves.fk_veam = '$lieu_id'
-                                    WHEN @today = 5 AND @time > 12 THEN eleves.fk_vepm = '$lieu_id'
-                                END) AND users.role = 'Référent') 
+                                    WHEN @today = 5 AND @time > 12 AND @time < 18 THEN eleves.fk_vepm = '$lieu_id'
+                            END)
+                            AND users.role = 'Référent') 
                             OR ((CASE
                                     WHEN @today = 1 AND @time < 12 THEN eleves.fk_luam = '$lieu_id'
-                                    WHEN @today = 1 AND @time > 12 THEN eleves.fk_lupm = '$lieu_id'
+                                    WHEN @today = 1 AND @time > 12 AND @time < 18 THEN eleves.fk_lupm = '$lieu_id'
                                     WHEN @today = 2 AND @time < 12 THEN eleves.fk_maam = '$lieu_id'
-                                    WHEN @today = 2 AND @time > 12 THEN eleves.fk_mapm = '$lieu_id'
+                                    WHEN @today = 2 AND @time > 12 AND @time < 18 THEN eleves.fk_mapm = '$lieu_id'
                                     WHEN @today = 3 AND @time < 12 THEN eleves.fk_meam = '$lieu_id'
-                                    WHEN @today = 3 AND @time > 12 THEN eleves.fk_mepm = '$lieu_id'
+                                    WHEN @today = 3 AND @time > 12 AND @time < 18 THEN eleves.fk_mepm = '$lieu_id'
                                     WHEN @today = 4 AND @time < 12 THEN eleves.fk_jeam = '$lieu_id'
-                                    WHEN @today = 4 AND @time > 12 THEN eleves.fk_jepm = '$lieu_id'
+                                    WHEN @today = 4 AND @time > 12 AND @time < 18 THEN eleves.fk_jepm = '$lieu_id'
                                     WHEN @today = 5 AND @time < 12 THEN eleves.fk_veam = '$lieu_id'
-                                    WHEN @today = 5 AND @time > 12 THEN eleves.fk_vepm = '$lieu_id'
-                            END) AND users.name = 'Schwery Nicolas');")->get();
+                                    WHEN @today = 5 AND @time > 12 AND @time < 18 THEN eleves.fk_vepm = '$lieu_id'
+                            END)
+                            AND users.name = 'Schwery Nicolas')
+                            OR ((CASE
+                                    WHEN @today = 1 AND @time >= 18 THEN eleves.fk_luev = '$lieu_id'
+                                    WHEN @today = 2 AND @time >= 18 THEN eleves.fk_maev = '$lieu_id'
+                                    WHEN @today = 3 AND @time >= 18 THEN eleves.fk_meev = '$lieu_id'
+                                    WHEN @today = 4 AND @time >= 18 THEN eleves.fk_jeev = '$lieu_id'
+                                    WHEN @today = 5 AND @time >= 18 THEN eleves.fk_veev = '$lieu_id'
+                            END)
+                            AND users.role = 'Référent')
+                            OR ((CASE
+                                    WHEN @today = 1 AND @time >= 18 THEN eleves.fk_luev = '$lieu_id'
+                                    WHEN @today = 2 AND @time >= 18 THEN eleves.fk_maev = '$lieu_id'
+                                    WHEN @today = 3 AND @time >= 18 THEN eleves.fk_meev = '$lieu_id'
+                                    WHEN @today = 4 AND @time >= 18 THEN eleves.fk_jeev = '$lieu_id'
+                                    WHEN @today = 5 AND @time >= 18 THEN eleves.fk_veev = '$lieu_id'
+                            END)
+                            AND users.name = 'Schwery Nicolas');")->get();
 
         $eleve_utilisateur = DB::table('eleve_utilisateur')->select('eleve_utilisateur.id')
             ->join('users', 'eleve_utilisateur.user_id', '=', 'users.id')
@@ -203,6 +222,11 @@ class ClasseController extends Controller
 
         if (!empty($request->except('_token'))) {
             $array = $request->all();
+
+            $pdf = app('dompdf.wrapper');
+            $pdf->loadView('fiche_de_presences', compact('presences'));
+            $pdf->output();
+            $pdf->download();
 
             for ($i = 0; $i < count(collect($request)->get('id')); $i++) {
                 if ($array['raison'][$i] != 'Présent') {
@@ -238,7 +262,6 @@ class ClasseController extends Controller
                 }
             }
         }
-
         return view('presence.index', compact('lieu', 'time', 'today', 'presences'));
     }
 

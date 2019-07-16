@@ -37,10 +37,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function matiere() {
-        return $this->hasOne('App\Matiere');
-    }
-
     public function institution() {
         return $this->belongsTo('App\Institution');
     }
@@ -51,6 +47,10 @@ class User extends Authenticatable
 
     public function role() {
         return $this->belongsTo('App\Role');
+    }
+
+    public function matieres() {
+        return $this->belongsToMany('App\Matiere', 'matiere_user', 'user_id', 'matiere_id');
     }
 
     public function routeNotificationForMail($notification) {

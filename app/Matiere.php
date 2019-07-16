@@ -48,7 +48,7 @@ class Matiere extends Model
         return $this->hasMany('App\Classe', 'fk_vepm', 'id');
     }
 
-    public function user() {
-        return $this->belongsTo('App\User');
+    public function users() {
+        $this->belongsToMany('App\User', 'matiere_user', 'matiere_id', 'user_id');
     }
 }

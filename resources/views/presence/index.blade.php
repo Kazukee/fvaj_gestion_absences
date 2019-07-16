@@ -42,8 +42,10 @@
 
                             @if ($time < 12)
                                 matin
-                            @else
+                            @elseif ($time < 18)
                                 après-midi
+                            @else
+                                soir
                             @endif
                         </b>
                     </th>

@@ -43,7 +43,7 @@ class AttendanceCreated extends Notification
     public function toMail($notifiable)
     {
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('myPDF', $this->arr);
+        $pdf->loadView('avis_dabsence', $this->arr);
 
         for ($i = 0; $i < count(collect($this->arr['nom_eleve'])); $i++) {
             if ($this->arr['raison'] != 'Présent') {

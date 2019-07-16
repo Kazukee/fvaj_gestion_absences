@@ -181,4 +181,9 @@ class AbsenceController extends Controller
 
         return view('eleve.absence', compact('eleve', 'absences'));
     }
+
+    public function showPlanning(Request $request, $id)
+    {
+
+    }
 }

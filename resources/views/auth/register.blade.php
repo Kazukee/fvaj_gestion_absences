@@ -36,7 +36,9 @@
                             <div class="col-md-6">
                                 <select id="role" class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role" value="{{ old('role') }}" required autofocus>
                                     <option value="Administrateur">Administrateur</option>
+                                    <option value="Référent">Référent</option>
                                     <option value="Responsable">Responsable</option>
+                                    <option value="Professeur">Professeur</option>
                                 </select>
 
                                 @if ($errors->has('role'))
