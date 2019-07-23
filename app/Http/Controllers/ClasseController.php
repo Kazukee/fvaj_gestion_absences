@@ -7,6 +7,7 @@ use App\Lieu;
 use App\Matiere;
 use App\Notifications\AbsenceCreated;
 use App\Notifications\AttendanceCreated;
+use App\Notifications\ListCompleted;
 use App\User;
 use App\Volee;
 use Barryvdh\DomPDF\PDF;
@@ -167,7 +168,9 @@ class ClasseController extends Controller
         $time = date('H');
 
         DB::statement(DB::raw('SET @today = DAYOFWEEK(CURDATE()) - 1;'));
-        DB::statement(DB::raw('SET @time = 11;'));
+        DB::statement(DB::raw('SET @time = HOUR(CURTIME());'));
+
+        $matieres = DB::table('matieres')->select('*')->get();
 
         $presences = DB::table('eleves')->select('eleves.id', 'eleves.nom', 'eleves.prenom', 'users.name', 'classes.code')
             ->join('classes', 'eleves.classe_id', '=', 'classes.id')
@@ -223,11 +226,6 @@ class ClasseController extends Controller
         if (!empty($request->except('_token'))) {
             $array = $request->all();
 
-            $pdf = app('dompdf.wrapper');
-            $pdf->loadView('fiche_de_presences', compact('presences'));
-            $pdf->output();
-            $pdf->download();
-
             for ($i = 0; $i < count(collect($request)->get('id')); $i++) {
                 if ($array['raison'][$i] != 'Présent') {
                     DB::table('absences')->insert([
@@ -260,9 +258,30 @@ class ClasseController extends Controller
                         Notification::send(User::where('name', $user->name)->get(), new AttendanceCreated($arr));
                     }
                 }
+
+                $id_eleve = $array['id'][$i];
+
+                $presences_eleves['classes_eleve'][] = DB::table('eleves')->select('classes.code')->join('classes', 'classes.id', '=', 'eleves.classe_id')->where('eleves.id', '=', $id_eleve)->get();
+                $presences_eleves['titres_eleve'][] = DB::table('eleves')->select('eleves.titre')->where('id', '=', $id_eleve)->get();
+                $presences_eleves['noms_eleve'][] = DB::table('eleves')->select('eleves.nom')->where('id', '=', $id_eleve)->get();
+                $presences_eleves['prenoms_eleve'][] = DB::table('eleves')->select('eleves.prenom')->where('id', '=', $id_eleve)->get();
+                $presences_eleves['referents_eleve'][] = DB::table('eleves')->select('users.name')
+                    ->join('eleve_utilisateur', 'eleves.id', '=', 'eleve_utilisateur.eleve_id')
+                    ->join('users', 'eleve_utilisateur.user_id', '=', 'users.id')
+                    ->whereRaw("(users.role = 'Référent' AND eleves.id = '$id_eleve') OR (eleves.id = '$id_eleve' AND users.name = 'Schwery Nicolas');")->get();
+                $presences_eleves['raisons'][] = $array['raison'][$i];
+
+                if ($time >= 18) {
+                    $presences_eleves['matieres'][] = DB::table('matieres')->select('matieres.label')->where('id', '=', $array['matiere'][$i])->get();
+                    $presences_eleves['remarque'][] = $array['remarque'][$i];
+                }
+            }
+
+            if (Auth::check()) {
+                Notification::send(User::where('id', Auth::id())->get(), new ListCompleted($presences_eleves));
             }
         }
-        return view('presence.index', compact('lieu', 'time', 'today', 'presences'));
+        return view('presence.index', compact('lieu', 'matieres', 'time', 'today', 'presences'));
     }
 
     /**

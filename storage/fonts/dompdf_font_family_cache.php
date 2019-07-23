@@ -83,4 +83,10 @@
   'open sans' => array(
     'normal' => $fontDir . '\2b8a08e0530328ab5426a2643920d2fb',
   ),
+  'font awesome 5 brands' => array(
+    'normal' => $fontDir . '\8acf9a40c9b65ab3b83f4863e1001c82',
+  ),
+  'font awesome 5 free' => array(
+    'normal' => $fontDir . '\e4efe00e4cec68282d78e5fc6fdd57ce',
+  ),
 ) ?>

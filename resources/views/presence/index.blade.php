@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-@php $i = 0; @endphp
+@php $i = 0;@endphp
     <head>
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
@@ -49,10 +49,16 @@
                             @endif
                         </b>
                     </th>
+                    @if($time >= 18)
+                        <th><b>Matières</b></th>
+                    @endif
                     <th scope="col"><b>Présent</b></th>
                     <th scope="col"><b>Retard</b></th>
                     <th scope="col"><b>Absence justifiée</b></th>
                     <th scope="col"><b>Absence injustifiée</b></th>
+                    @if($time >= 18)
+                    <th scope="col"><b>Remarques</b></th>
+                    @endif
                 </tr>
                 </thead>
                 @csrf
@@ -62,10 +68,23 @@
                         <td>{{ $presence->prenom }}</td>
                         <td>{{ $presence->name }}</td>
                         <td>{{ $presence->code }}</td>
+                        @if($time >= 18)
+                            <td>
+                                <select id="matiere" name="matiere[@php echo $i @endphp]" required>
+                                <option hidden disabled selected value> -- Choisir une option -- </option>
+                                @foreach($matieres as $matiere)
+                                    <option value="{{ $matiere->id }}">{{ $matiere->label }}</option>
+                                @endforeach
+                                </select>
+                            </td>
+                        @endif
                         <td><input type="radio" name="raison[@php echo $i @endphp]" value="Présent" checked></td>
                         <td><input type="radio" name="raison[@php echo $i @endphp]" value="Retard"></td>
                         <td><input type="radio" name="raison[@php echo $i @endphp]" value="Absence justifiée"></td>
                         <td><input type="radio" name="raison[@php echo $i @endphp]" value="Absence injustifiée"></td>
+                        @if($time >= 18)
+                        <td><input type="text" name="remarque[@php echo $i @endphp]"></td>
+                        @endif
                     </tr>
                     @php $i++ @endphp
                 @endforeach
@@ -91,7 +110,7 @@
             $('#dataPresence').DataTable({
                 columnDefs: [{
                     orderable: false,
-                    targets: [1, 2, 3, 4, 5, 6, 7,],
+                    targets: [1, 2, 3, 4, 5, 6, 7, 8],
                 }],
 
                 "pageLength": 25,
